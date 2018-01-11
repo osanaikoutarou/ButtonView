@@ -29,7 +29,7 @@ class ButtonView: UIControl {
     }
     
     var backgroundImageName:String?
-    let defaultAlpha:CGFloat = 0.0
+    let defaultAlpha:CGFloat = 1.0
     var type:ButtonViewType = .componentLight
     
 //    // typeで指定
@@ -107,6 +107,7 @@ class ButtonView: UIControl {
     // カバー用
     var coverImageViewViews:[UIView] = []
     var coverViewViews:[UIView] = []
+    var allCoverView:UIView = UIView()
     
     // タッチ状態
     var onTouch:Bool = false
@@ -147,22 +148,166 @@ class ButtonView: UIControl {
     
     // event
     @objc func touchDown() {
+//        UITouch *touch = [[event allTouches] anyObject];
+//        touchDownPoint = [touch locationInView:self];
+//        [self showTouchViewWithAnimation:NO];
     }
     @objc func touchUpInside() {
+//        [self showUnTouchViewWithAnimation:YES];
+//
+//        if (touchUpInsideAction) {
+//            touchUpInsideAction(self);
+//        }
     }
     @objc func touchUpOutside() {
+//        [self showUnTouchViewWithAnimation:YES];
     }
     @objc func touchDragInside() {
     }
     @objc func touchDragOutside() {
+//        [self showUnTouchViewWithAnimation:YES];
     }
     @objc func touchDragEnter() {
+//        [self showTouchViewWithAnimation:YES];
     }
     @objc func touchDragExit() {
+//        [self showUnTouchViewWithAnimation:YES];
     }
     @objc func touchCancel() {
+//        [self showUnTouchViewWithAnimation:YES];
     }
 
+    
+    //
+    func showTouchState(animation:Bool) {
+        if onTouch {
+            return
+        }
+        else {
+            onTouch = true
+        }
+        
+        UIView.animate(
+            withDuration: animation ? 0 : 0.2,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                
+                if self.viewHilightModes.background == .light {
+                    self.alpha = 0.2
+                    return;
+                }
+                if self.viewHilightModes.background == .dark {
+                    self.allCoverView.isHidden = false
+                    return;
+                }
+                
+                if self.viewHilightModes.label == .light {
+                    for v in self.subviews {
+                        if v is UILabel {
+                            v.alpha = 0.2
+                        }
+                    }
+                }
+                if self.viewHilightModes.imageView == .light {
+                    for v in self.subviews {
+                        if v is UIImageView {
+                            v.alpha = 0.2
+                        }
+                    }
+                }
+                
+                if self.viewHilightModes.imageView == .dark {
+                    for v in self.coverImageViewViews {
+                        v.isHidden = false
+                    }
+                }
+
+                if self.viewHilightModes.uiView == .light {
+                    for v in self.subviews {
+                        if self.isView(v: v) {
+                            v.alpha = 0.2
+                        }
+                    }
+                }
+                if self.viewHilightModes.uiView == .dark {
+                    for v in self.coverViewViews {
+                        v.isHidden = false
+                    }
+                }
+                
+        },
+            completion: nil)
+    }
+    
+    // 離された状態
+    func showUpState(animation:Bool) {
+        if onTouch {
+            onTouch = false
+        }
+        else {
+            return
+        }
+        
+        UIView.animate(
+            withDuration: animation ? 0 : 0.2,
+            delay: 0,
+            options: .curveEaseOut,
+            animations: {
+                
+                if self.viewHilightModes.background == .light {
+                    self.alpha = self.defaultAlpha
+                    return
+                }
+                
+                if self.viewHilightModes.background == .dark {
+                    self.allCoverView.isHidden = true
+                    return
+                }
+                
+                if self.viewHilightModes.label == .light {
+                    for v in self.subviews {
+                        if v is UILabel {
+                            v.alpha = 1.0
+                        }
+                    }
+                }
+                
+                if self.viewHilightModes.imageView == .light {
+                    for v in self.subviews {
+                        if v is UIImageView {
+                            v.alpha = 1.0
+                        }
+                    }
+                }
+                
+                if self.viewHilightModes.imageView == .dark {
+                    for v in self.coverImageViewViews {
+                        v.isHidden = true
+                    }
+                }
+                
+                if self.viewHilightModes.uiView == .light {
+                    for v in self.subviews {
+                        if self.isView(v: v) {
+                            //TODO:default alpha
+                            v.alpha = 1.0
+                        }
+                    }
+                }
+                
+                if self.viewHilightModes.uiView == .dark {
+                    for v in self.coverViewViews {
+                        v.isHidden = true
+                    }
+                }
+                
+                
+        },
+            completion: nil)
+            
+    
+    }
     
     // util
     func isView(v:Any?) -> Bool {
