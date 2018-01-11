@@ -12,7 +12,20 @@
 		DA8465F42007086C00674917 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8465F22007086C00674917 /* Main.storyboard */; };
 		DA8465F62007086C00674917 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA8465F52007086C00674917 /* Assets.xcassets */; };
 		DA8465F92007086C00674917 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8465F72007086C00674917 /* LaunchScreen.storyboard */; };
+		DA84660F20070F3400674917 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA84660520070F3300674917 /* Info.plist */; };
+		DA84661020070F3400674917 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA84660720070F3300674917 /* ButtonView.swift */; };
+		DA84661120070F3400674917 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA84660B20070F3300674917 /* Info.plist */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA84660D20070F3400674917 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA84660820070F3300674917 /* ButtonView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA8465D72007085900674917;
+			remoteInfo = ButtonView;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		DA8465EB2007086C00674917 /* ButtonViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ButtonViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +35,12 @@
 		DA8465F52007086C00674917 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA8465F82007086C00674917 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA8465FA2007086C00674917 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA84660420070F3300674917 /* ButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
+		DA84660520070F3300674917 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA84660620070F3300674917 /* ButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
+		DA84660720070F3300674917 /* ButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		DA84660820070F3300674917 /* ButtonView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ButtonView.xcodeproj; sourceTree = "<group>"; };
+		DA84660B20070F3300674917 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +57,7 @@
 		DA8465E22007086C00674917 = {
 			isa = PBXGroup;
 			children = (
+				DA84660220070F3300674917 /* ButtonView */,
 				DA8465ED2007086C00674917 /* ButtonViewDemo */,
 				DA8465EC2007086C00674917 /* Products */,
 			);
@@ -62,6 +82,36 @@
 				DA8465FA2007086C00674917 /* Info.plist */,
 			);
 			path = ButtonViewDemo;
+			sourceTree = "<group>";
+		};
+		DA84660220070F3300674917 /* ButtonView */ = {
+			isa = PBXGroup;
+			children = (
+				DA84660320070F3300674917 /* ButtonView */,
+				DA84660620070F3300674917 /* ButtonView.h */,
+				DA84660720070F3300674917 /* ButtonView.swift */,
+				DA84660820070F3300674917 /* ButtonView.xcodeproj */,
+				DA84660B20070F3300674917 /* Info.plist */,
+			);
+			name = ButtonView;
+			path = ../ButtonView;
+			sourceTree = "<group>";
+		};
+		DA84660320070F3300674917 /* ButtonView */ = {
+			isa = PBXGroup;
+			children = (
+				DA84660420070F3300674917 /* ButtonView.h */,
+				DA84660520070F3300674917 /* Info.plist */,
+			);
+			path = ButtonView;
+			sourceTree = "<group>";
+		};
+		DA84660920070F3300674917 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA84660E20070F3400674917 /* ButtonView.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -111,6 +161,12 @@
 			mainGroup = DA8465E22007086C00674917;
 			productRefGroup = DA8465EC2007086C00674917 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = DA84660920070F3300674917 /* Products */;
+					ProjectRef = DA84660820070F3300674917 /* ButtonView.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				DA8465EA2007086C00674917 /* ButtonViewDemo */,
@@ -118,13 +174,25 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		DA84660E20070F3400674917 /* ButtonView.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ButtonView.framework;
+			remoteRef = DA84660D20070F3400674917 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		DA8465E92007086C00674917 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA84660F20070F3400674917 /* Info.plist in Resources */,
 				DA8465F92007086C00674917 /* LaunchScreen.storyboard in Resources */,
 				DA8465F62007086C00674917 /* Assets.xcassets in Resources */,
+				DA84661120070F3400674917 /* Info.plist in Resources */,
 				DA8465F42007086C00674917 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +206,7 @@
 			files = (
 				DA8465F12007086C00674917 /* ViewController.swift in Sources */,
 				DA8465EF2007086C00674917 /* AppDelegate.swift in Sources */,
+				DA84661020070F3400674917 /* ButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
