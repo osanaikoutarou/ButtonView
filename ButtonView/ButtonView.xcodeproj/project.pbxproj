@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA8465A92007077000674917 /* ButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8465A72007077000674917 /* ButtonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA8465DC2007085900674917 /* ButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = DA8465DA2007085900674917 /* ButtonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DA8465A42007077000674917 /* ButtonView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ButtonView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA8465A72007077000674917 /* ButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
-		DA8465A82007077000674917 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA8465D72007085900674917 /* ButtonView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ButtonView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA8465DA2007085900674917 /* ButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ButtonView.h; sourceTree = "<group>"; };
+		DA8465DB2007085900674917 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DA8465A02007077000674917 /* Frameworks */ = {
+		DA8465D32007085900674917 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -27,27 +27,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DA84659A2007077000674917 = {
+		DA8465CD2007085900674917 = {
 			isa = PBXGroup;
 			children = (
-				DA8465A62007077000674917 /* ButtonView */,
-				DA8465A52007077000674917 /* Products */,
+				DA8465D92007085900674917 /* ButtonView */,
+				DA8465D82007085900674917 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		DA8465A52007077000674917 /* Products */ = {
+		DA8465D82007085900674917 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DA8465A42007077000674917 /* ButtonView.framework */,
+				DA8465D72007085900674917 /* ButtonView.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DA8465A62007077000674917 /* ButtonView */ = {
+		DA8465D92007085900674917 /* ButtonView */ = {
 			isa = PBXGroup;
 			children = (
-				DA8465A72007077000674917 /* ButtonView.h */,
-				DA8465A82007077000674917 /* Info.plist */,
+				DA8465DA2007085900674917 /* ButtonView.h */,
+				DA8465DB2007085900674917 /* Info.plist */,
 			);
 			path = ButtonView;
 			sourceTree = "<group>";
@@ -55,25 +55,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		DA8465A12007077000674917 /* Headers */ = {
+		DA8465D42007085900674917 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA8465A92007077000674917 /* ButtonView.h in Headers */,
+				DA8465DC2007085900674917 /* ButtonView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		DA8465A32007077000674917 /* ButtonView */ = {
+		DA8465D62007085900674917 /* ButtonView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA8465AC2007077000674917 /* Build configuration list for PBXNativeTarget "ButtonView" */;
+			buildConfigurationList = DA8465DF2007085900674917 /* Build configuration list for PBXNativeTarget "ButtonView" */;
 			buildPhases = (
-				DA84659F2007077000674917 /* Sources */,
-				DA8465A02007077000674917 /* Frameworks */,
-				DA8465A12007077000674917 /* Headers */,
-				DA8465A22007077000674917 /* Resources */,
+				DA8465D22007085900674917 /* Sources */,
+				DA8465D32007085900674917 /* Frameworks */,
+				DA8465D42007085900674917 /* Headers */,
+				DA8465D52007085900674917 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -81,43 +81,43 @@
 			);
 			name = ButtonView;
 			productName = ButtonView;
-			productReference = DA8465A42007077000674917 /* ButtonView.framework */;
+			productReference = DA8465D72007085900674917 /* ButtonView.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		DA84659B2007077000674917 /* Project object */ = {
+		DA8465CE2007085900674917 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0920;
-				ORGANIZATIONNAME = jp.co.osanai.buttonview;
+				ORGANIZATIONNAME = jp.co.osanai.buttonview.demo;
 				TargetAttributes = {
-					DA8465A32007077000674917 = {
+					DA8465D62007085900674917 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = DA84659E2007077000674917 /* Build configuration list for PBXProject "ButtonView" */;
+			buildConfigurationList = DA8465D12007085900674917 /* Build configuration list for PBXProject "ButtonView" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = DA84659A2007077000674917;
-			productRefGroup = DA8465A52007077000674917 /* Products */;
+			mainGroup = DA8465CD2007085900674917;
+			productRefGroup = DA8465D82007085900674917 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DA8465A32007077000674917 /* ButtonView */,
+				DA8465D62007085900674917 /* ButtonView */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		DA8465A22007077000674917 /* Resources */ = {
+		DA8465D52007085900674917 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -127,7 +127,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		DA84659F2007077000674917 /* Sources */ = {
+		DA8465D22007085900674917 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -137,7 +137,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		DA8465AA2007077000674917 /* Debug */ = {
+		DA8465DD2007085900674917 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -197,7 +197,7 @@
 			};
 			name = Debug;
 		};
-		DA8465AB2007077000674917 /* Release */ = {
+		DA8465DE2007085900674917 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -250,7 +250,7 @@
 			};
 			name = Release;
 		};
-		DA8465AD2007077000674917 /* Debug */ = {
+		DA8465E02007085900674917 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
@@ -271,7 +271,7 @@
 			};
 			name = Debug;
 		};
-		DA8465AE2007077000674917 /* Release */ = {
+		DA8465E12007085900674917 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
@@ -295,25 +295,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DA84659E2007077000674917 /* Build configuration list for PBXProject "ButtonView" */ = {
+		DA8465D12007085900674917 /* Build configuration list for PBXProject "ButtonView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DA8465AA2007077000674917 /* Debug */,
-				DA8465AB2007077000674917 /* Release */,
+				DA8465DD2007085900674917 /* Debug */,
+				DA8465DE2007085900674917 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DA8465AC2007077000674917 /* Build configuration list for PBXNativeTarget "ButtonView" */ = {
+		DA8465DF2007085900674917 /* Build configuration list for PBXNativeTarget "ButtonView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DA8465AD2007077000674917 /* Debug */,
-				DA8465AE2007077000674917 /* Release */,
+				DA8465E02007085900674917 /* Debug */,
+				DA8465E12007085900674917 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = DA84659B2007077000674917 /* Project object */;
+	rootObject = DA8465CE2007085900674917 /* Project object */;
 }
