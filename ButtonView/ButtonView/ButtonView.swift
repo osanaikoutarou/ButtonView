@@ -32,8 +32,7 @@ class ButtonView: UIControl {
     let defaultAlpha:CGFloat = 1.0
     var type:ButtonViewType = .componentLight
     
-//    // typeで指定
-//    - (void)setupType:(CustomButtonViewType)customButtonViewType;
+    
 //    // あるいは細かく指定　※直下の子Viewのみに対するルール
 //    - (void)setupBackground:(ViewShowMode)backgroundMode
 //    label:(ViewShowMode)labelMode
@@ -92,14 +91,6 @@ class ButtonView: UIControl {
             case .customMode:
                 break
             }
-            
-            if imageView == .dark {
-//                addDarkCoverViewsForImageView
-            }
-            
-            if uiView == .dark {
-//                addDarkCoverViewsForViews
-            }
         }
     }
     let viewHilightModes = ViewHilightModes()
@@ -107,7 +98,76 @@ class ButtonView: UIControl {
     // カバー用
     var coverImageViewViews:[UIView] = []
     var coverViewViews:[UIView] = []
-    var allCoverView:UIView = UIView()
+    var allCoverView:UIView?
+
+    func setupCoverView() {
+        if viewHilightModes.imageView == .dark {
+            self.addDarkCoverViewsForImageView()
+        }
+        
+        if viewHilightModes.uiView == .dark {
+            self.addDarkCoverViewsForViews()
+        }
+    }
+    
+    // imageviewを覆うdark view
+    func addDarkCoverViewsForImageView() {
+        if (coverImageViewViews.count>0) {
+            return
+        }
+        
+        for subview in self.subviews {
+            if subview is UIImageView {
+                let coverView = UIView()
+                coverView.frame = subview.bounds
+                coverView.backgroundColor = UIColor.black
+                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
+                coverView.isHidden = true
+                coverView.isUserInteractionEnabled = false
+                subview.addSubview(coverView)
+                coverImageViewViews.append(coverView)
+            }
+        }
+    }
+    
+    // viewを覆うdark view
+    func addDarkCoverViewsForViews() {
+        if (coverViewViews.count>0) {
+            return;
+        }
+        
+        for subview in self.subviews {
+            
+            if isView(v: subview) {
+                let coverView = UIView()
+                coverView.frame = subview.bounds
+                coverView.backgroundColor = UIColor.black
+                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
+                coverView.isHidden = true
+                coverView.isUserInteractionEnabled = false
+                subview.addSubview(coverView)
+                coverViewViews.append(coverView)
+            }
+        }
+    }
+    
+    // 全体を覆うdark view
+    func addAllCoverView() {
+        
+        if (allCoverView != nil) {
+            return
+        }
+        
+        allCoverView = UIView()
+        allCoverView?.frame = self.bounds
+        allCoverView?.backgroundColor = UIColor.black
+        allCoverView?.alpha = 0.5 //DARK_VIEW_ALPHA
+        allCoverView?.isHidden = true
+        allCoverView?.isUserInteractionEnabled = false
+        self.addSubview(allCoverView!)
+        
+    }
+    
     
     // タッチ状態
     var onTouch:Bool = false
@@ -136,47 +196,50 @@ class ButtonView: UIControl {
         addTarget(self, action: #selector(touchDragExit),       for: .touchDragExit)
         addTarget(self, action: #selector(touchCancel),         for: .touchCancel)
 
-        
+        setup(type: .likeUIButtonPlane)
     }
     
     // interface
     func setup(type:ButtonViewType) {
         self.type = type
         viewHilightModes.setupHighlight(type: self.type)
+        setupCoverView()
     }
-    
     
     // event
     @objc func touchDown() {
+        print("touch down")
 //        UITouch *touch = [[event allTouches] anyObject];
 //        touchDownPoint = [touch locationInView:self];
-//        [self showTouchViewWithAnimation:NO];
+        
+        showTouchState(animation: false)
     }
     @objc func touchUpInside() {
-//        [self showUnTouchViewWithAnimation:YES];
-//
+        print("touch up inside")
+        showUpState(animation: true)
+
 //        if (touchUpInsideAction) {
 //            touchUpInsideAction(self);
 //        }
     }
     @objc func touchUpOutside() {
-//        [self showUnTouchViewWithAnimation:YES];
+        print("touch up outside")
+        showUpState(animation: true)
     }
     @objc func touchDragInside() {
     }
     @objc func touchDragOutside() {
-//        [self showUnTouchViewWithAnimation:YES];
+        showUpState(animation: true)
     }
     @objc func touchDragEnter() {
-//        [self showTouchViewWithAnimation:YES];
+        showTouchState(animation: true)
     }
     @objc func touchDragExit() {
-//        [self showUnTouchViewWithAnimation:YES];
+        showUpState(animation: true)
     }
     @objc func touchCancel() {
-//        [self showUnTouchViewWithAnimation:YES];
+        showUpState(animation: true)
     }
-
     
     //
     func showTouchState(animation:Bool) {
@@ -188,7 +251,7 @@ class ButtonView: UIControl {
         }
         
         UIView.animate(
-            withDuration: animation ? 0 : 0.2,
+            withDuration: animation ? 0.2 : 0,
             delay: 0,
             options: .curveEaseOut,
             animations: {
@@ -198,7 +261,7 @@ class ButtonView: UIControl {
                     return;
                 }
                 if self.viewHilightModes.background == .dark {
-                    self.allCoverView.isHidden = false
+                    self.allCoverView?.isHidden = false
                     return;
                 }
                 
@@ -250,7 +313,7 @@ class ButtonView: UIControl {
         }
         
         UIView.animate(
-            withDuration: animation ? 0 : 0.2,
+            withDuration: animation ? 0.2 : 0,
             delay: 0,
             options: .curveEaseOut,
             animations: {
@@ -261,7 +324,7 @@ class ButtonView: UIControl {
                 }
                 
                 if self.viewHilightModes.background == .dark {
-                    self.allCoverView.isHidden = true
+                    self.allCoverView?.isHidden = true
                     return
                 }
                 
