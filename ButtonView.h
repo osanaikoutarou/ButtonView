@@ -3,7 +3,7 @@
 //  ButtonView
 //
 //  Created by osanai on 2018/01/11.
-//  Copyright © 2018年 jp.co.osanai.buttonview.demo. All rights reserved.
+//  Copyright © 2018年 jp.co.osanai.buttonview. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
