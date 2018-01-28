@@ -32,7 +32,6 @@ class ButtonView: UIControl {
     let defaultAlpha:CGFloat = 1.0
     var type:ButtonViewType = .componentLight
     
-    
 //    // あるいは細かく指定　※直下の子Viewのみに対するルール
 //    - (void)setupBackground:(ViewShowMode)backgroundMode
 //    label:(ViewShowMode)labelMode
@@ -211,16 +210,11 @@ class ButtonView: UIControl {
         print("touch down")
 //        UITouch *touch = [[event allTouches] anyObject];
 //        touchDownPoint = [touch locationInView:self];
-        
         showTouchState(animation: false)
     }
     @objc func touchUpInside() {
         print("touch up inside")
         showUpState(animation: true)
-
-//        if (touchUpInsideAction) {
-//            touchUpInsideAction(self);
-//        }
     }
     @objc func touchUpOutside() {
         print("touch up outside")
@@ -372,7 +366,101 @@ class ButtonView: UIControl {
     
     }
     
-    // util
+    //MARK:UIControlState function
+
+    var highlightedView:UIView?
+    var disabledView:UIView?
+    var selectedView:UIView?
+    // 未実装:fucused,application,reserved
+    
+    func setView(view:UIView?, forState:UIControlState) {
+        guard let view = view else {
+            return;
+        }
+        
+        if forState == UIControlState.highlighted {
+            highlightedView = view
+            highlightedView!.tag = 1
+            highlightedView!.isUserInteractionEnabled = false
+            removeView(tag: 1)
+            self.addSubviewAndFit(subview: highlightedView!, parentView: self)
+        }
+        if forState == UIControlState.disabled {
+            disabledView = view
+            disabledView!.tag = 2
+            disabledView!.isUserInteractionEnabled = false
+            removeView(tag: 2)
+            self.addSubviewAndFit(subview: disabledView!, parentView: self)
+            
+        }
+        if forState == UIControlState.selected {
+            selectedView = view
+            selectedView!.tag = 3
+            selectedView!.isUserInteractionEnabled = false
+            removeView(tag: 3)
+            self.addSubviewAndFit(subview: selectedView!, parentView: self)
+        }
+        
+        didSetControlStates()
+    }
+    
+    func removeView(tag:Int) {
+        for v:UIView in self.subviews {
+            if v.tag == tag {
+                v.removeFromSuperview()
+            }
+        }
+    }
+    
+    override var isHighlighted: Bool {
+        willSet {
+        }
+        
+        didSet {
+            self.didSetControlStates()
+        }
+    }
+    
+    override var isEnabled: Bool {
+        willSet {
+        }
+        
+        didSet {
+            self.didSetControlStates()
+        }
+    }
+    
+    override var isSelected: Bool {
+        willSet {
+        }
+        
+        didSet {
+            self.didSetControlStates()
+        }
+    }
+    
+    func didSetControlStates() {
+        allControlStatesSubviewHidden()
+        
+        if self.isHighlighted {
+            if let highlightedView = highlightedView {
+                highlightedView.isHidden = false
+            }
+        }
+        if !self.isEnabled {
+            if let disabledView = disabledView {
+                disabledView.isHidden = false
+            }
+        }
+        if self.isSelected {
+            if let selectedView = selectedView {
+                selectedView.isHidden = false
+            }
+        }
+    }
+    
+    //MARK:util
+    
     func isView(v:Any?) -> Bool {
         // UIViewであり、label、imageではないものすべて
         
@@ -392,7 +480,25 @@ class ButtonView: UIControl {
         
         return false
     }
+
+    func addSubviewAndFit(subview:UIView, parentView:UIView) {
+        subview.translatesAutoresizingMaskIntoConstraints = false
+        parentView.addSubview(subview)
+        parentView.addConstraint(NSLayoutConstraint(item: subview, attribute: .top, relatedBy: .equal, toItem: parentView, attribute: .top, multiplier: 1.0, constant: 0.0))
+        parentView.addConstraint(NSLayoutConstraint(item: subview, attribute: .leading, relatedBy: .equal, toItem: parentView, attribute: .leading, multiplier: 1.0, constant: 0.0))
+        parentView.addConstraint(NSLayoutConstraint(item: parentView, attribute: .bottom, relatedBy: .equal, toItem: subview, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+        parentView.addConstraint(NSLayoutConstraint(item: parentView, attribute: .trailing, relatedBy: .equal, toItem: subview, attribute: .trailing, multiplier: 1.0, constant: 0.0))
+    }
     
-    
+    func allControlStatesSubviewHidden() {
+        for subview:UIView in self.subviews {
+            if (subview.isEqual(highlightedView) ||
+                subview.isEqual(disabledView) ||
+                subview.isEqual(selectedView)) {
+                
+                subview.isHidden = true
+            }
+        }
+    }
 }
 
