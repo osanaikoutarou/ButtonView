@@ -11,15 +11,19 @@ import UIKit
 class ButtonView: UIControl {
     
     enum ButtonViewType {
-        case likeUIButton           //UIButtonのようにする、画像がある場合はCustom、ない場合はPlane
-        case likeUIButtonPlane      //ラベルを明るくするのみ、imageは無視
-        case likeUIButtonCustom    //ラベルを変えない、画像が暗くなる
-        case componentLight        //全部の子Viewを明るく（background以外）
-        case componentDark         //全部暗く（background以外）
-        case baseLight             //全体を明るく（alphaがかかるので親Viewの色が透ける）
-        case baseDark              //全体を暗く
-        case noChange              //何もしない
-        case customMode            //個別に指定する
+        case componentLight     //Default. It get lighter all subviews（without background）.
+        case componentDark      //It get darker all subviews（without background and label）.
+
+        case lighterTheWhole    //It get lighter parent view by alpha.
+        case darkerTheWhole     //It get darker parent view by cover view.
+        
+        case likeUIButtonPlane  //It get lighter only labels.
+        case likeUIButtonCustom //It get darker only images.
+        case likeUIButton       //if(exist images) -> likeUIButtonCustom else -> likeUIButtonPlane
+
+        case noChange           //No change in visible.
+        
+        case customMode         //Specify individually
     }
     
     enum HilightMode {
@@ -31,15 +35,6 @@ class ButtonView: UIControl {
     var backgroundImageName:String?
     let defaultAlpha:CGFloat = 1.0
     var type:ButtonViewType = .componentLight
-    
-//    // あるいは細かく指定　※直下の子Viewのみに対するルール
-//    - (void)setupBackground:(ViewShowMode)backgroundMode
-//    label:(ViewShowMode)labelMode
-//    image:(ViewShowMode)imageMode
-//    view:(ViewShowMode)viewMode;
-//
-//    // Action
-//    - (void)setupTappedAction:(ActionBlock)block;
     
     // 各パーツ毎の設定
     class ViewHilightModes {
@@ -80,10 +75,11 @@ class ButtonView: UIControl {
                 label = .dark
                 uiView = .dark
                 break
-            case .baseLight:
+            case .lighterTheWhole:
+                background = .light
                 break
-            case .baseDark:
-//                addAllCoverView
+            case .darkerTheWhole:
+                background = .dark
                 break
             case .noChange:
                 break
@@ -167,14 +163,11 @@ class ButtonView: UIControl {
         
     }
     
-    
     // タッチ状態
     var onTouch:Bool = false
     
     // タッチしたポイント
     var touchDownPoint:CGPoint = .zero
-    
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -202,22 +195,25 @@ class ButtonView: UIControl {
     func setup(type:ButtonViewType) {
         self.type = type
         viewHilightModes.setupHighlight(type: self.type)
+    
+        if (self.type == .darkerTheWhole) {
+            addAllCoverView()
+        }
+        
         setupCoverView()
     }
     
     // event
     @objc func touchDown() {
-        print("touch down")
-//        UITouch *touch = [[event allTouches] anyObject];
-//        touchDownPoint = [touch locationInView:self];
+//        print("touch down")
         showTouchState(animation: false)
     }
     @objc func touchUpInside() {
-        print("touch up inside")
+//        print("touch up inside")
         showUpState(animation: true)
     }
     @objc func touchUpOutside() {
-        print("touch up outside")
+//        print("touch up outside")
         showUpState(animation: true)
     }
     @objc func touchDragInside() {
