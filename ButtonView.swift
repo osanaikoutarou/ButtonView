@@ -11,19 +11,15 @@ import UIKit
 class ButtonView: UIControl {
     
     enum ButtonViewType {
-        case componentLight     //Default. It get lighter all subviews（without background）.
-        case componentDark      //It get darker all subviews（without background and label）.
-
-        case lighterTheWhole    //It get lighter parent view by alpha.
-        case darkerTheWhole     //It get darker parent view by cover view.
-        
-        case likeUIButtonPlane  //It get lighter only labels.
-        case likeUIButtonCustom //It get darker only images.
-        case likeUIButton       //if(exist images) -> likeUIButtonCustom else -> likeUIButtonPlane
-
-        case noChange           //No change in visible.
-        
-        case customMode         //Specify individually
+        case likeUIButton           //UIButtonのようにする、画像がある場合はCustom、ない場合はPlane
+        case likeUIButtonPlane      //ラベルを明るくするのみ、imageは無視
+        case likeUIButtonCustom    //ラベルを変えない、画像が暗くなる
+        case componentLight        //全部の子Viewを明るく（background以外）
+        case componentDark         //全部暗く（background以外）
+        case baseLight             //全体を明るく（alphaがかかるので親Viewの色が透ける）
+        case baseDark              //全体を暗く
+        case noChange              //何もしない
+        case customMode            //個別に指定する
     }
     
     enum HilightMode {
@@ -35,6 +31,17 @@ class ButtonView: UIControl {
     var backgroundImageName:String?
     let defaultAlpha:CGFloat = 1.0
     var type:ButtonViewType = .componentLight
+    
+//    // typeで指定
+//    - (void)setupType:(CustomButtonViewType)customButtonViewType;
+//    // あるいは細かく指定　※直下の子Viewのみに対するルール
+//    - (void)setupBackground:(ViewShowMode)backgroundMode
+//    label:(ViewShowMode)labelMode
+//    image:(ViewShowMode)imageMode
+//    view:(ViewShowMode)viewMode;
+//
+//    // Action
+//    - (void)setupTappedAction:(ActionBlock)block;
     
     // 各パーツ毎の設定
     class ViewHilightModes {
@@ -75,16 +82,23 @@ class ButtonView: UIControl {
                 label = .dark
                 uiView = .dark
                 break
-            case .lighterTheWhole:
-                background = .light
+            case .baseLight:
                 break
-            case .darkerTheWhole:
-                background = .dark
+            case .baseDark:
+//                addAllCoverView
                 break
             case .noChange:
                 break
             case .customMode:
                 break
+            }
+            
+            if imageView == .dark {
+//                addDarkCoverViewsForImageView
+            }
+            
+            if uiView == .dark {
+//                addDarkCoverViewsForViews
             }
         }
     }
@@ -93,81 +107,15 @@ class ButtonView: UIControl {
     // カバー用
     var coverImageViewViews:[UIView] = []
     var coverViewViews:[UIView] = []
-    var allCoverView:UIView?
-
-    func setupCoverView() {
-        if viewHilightModes.imageView == .dark {
-            self.addDarkCoverViewsForImageView()
-        }
-        
-        if viewHilightModes.uiView == .dark {
-            self.addDarkCoverViewsForViews()
-        }
-    }
-    
-    // imageviewを覆うdark view
-    func addDarkCoverViewsForImageView() {
-        if (coverImageViewViews.count>0) {
-            return
-        }
-        
-        for subview in self.subviews {
-            if subview is UIImageView {
-                let coverView = UIView()
-                coverView.frame = subview.bounds
-                coverView.backgroundColor = UIColor.black
-                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
-                coverView.isHidden = true
-                coverView.isUserInteractionEnabled = false
-                subview.addSubview(coverView)
-                coverImageViewViews.append(coverView)
-            }
-        }
-    }
-    
-    // viewを覆うdark view
-    func addDarkCoverViewsForViews() {
-        if (coverViewViews.count>0) {
-            return;
-        }
-        
-        for subview in self.subviews {
-            
-            if isView(v: subview) {
-                let coverView = UIView()
-                coverView.frame = subview.bounds
-                coverView.backgroundColor = UIColor.black
-                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
-                coverView.isHidden = true
-                coverView.isUserInteractionEnabled = false
-                subview.addSubview(coverView)
-                coverViewViews.append(coverView)
-            }
-        }
-    }
-    
-    // 全体を覆うdark view
-    func addAllCoverView() {
-        
-        if (allCoverView != nil) {
-            return
-        }
-        
-        allCoverView = UIView()
-        allCoverView?.frame = self.bounds
-        allCoverView?.backgroundColor = UIColor.black
-        allCoverView?.alpha = 0.5 //DARK_VIEW_ALPHA
-        allCoverView?.isHidden = true
-        allCoverView?.isUserInteractionEnabled = false
-        self.addSubview(allCoverView!)
-        
-    }
+    var allCoverView:UIView = UIView()
     
     // タッチ状態
     var onTouch:Bool = false
     
     // タッチしたポイント
     var touchDownPoint:CGPoint = .zero
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -188,48 +136,47 @@ class ButtonView: UIControl {
         addTarget(self, action: #selector(touchDragExit),       for: .touchDragExit)
         addTarget(self, action: #selector(touchCancel),         for: .touchCancel)
 
-        setup(type: .likeUIButtonPlane)
+        
     }
     
     // interface
     func setup(type:ButtonViewType) {
         self.type = type
         viewHilightModes.setupHighlight(type: self.type)
-    
-        if (self.type == .darkerTheWhole) {
-            addAllCoverView()
-        }
-        
-        setupCoverView()
     }
+    
     
     // event
     @objc func touchDown() {
-//        print("touch down")
-        showTouchState(animation: false)
+//        UITouch *touch = [[event allTouches] anyObject];
+//        touchDownPoint = [touch locationInView:self];
+//        [self showTouchViewWithAnimation:NO];
     }
     @objc func touchUpInside() {
-//        print("touch up inside")
-        showUpState(animation: true)
+//        [self showUnTouchViewWithAnimation:YES];
+//
+//        if (touchUpInsideAction) {
+//            touchUpInsideAction(self);
+//        }
     }
     @objc func touchUpOutside() {
-//        print("touch up outside")
-        showUpState(animation: true)
+//        [self showUnTouchViewWithAnimation:YES];
     }
     @objc func touchDragInside() {
     }
     @objc func touchDragOutside() {
-        showUpState(animation: true)
+//        [self showUnTouchViewWithAnimation:YES];
     }
     @objc func touchDragEnter() {
-        showTouchState(animation: true)
+//        [self showTouchViewWithAnimation:YES];
     }
     @objc func touchDragExit() {
-        showUpState(animation: true)
+//        [self showUnTouchViewWithAnimation:YES];
     }
     @objc func touchCancel() {
-        showUpState(animation: true)
+//        [self showUnTouchViewWithAnimation:YES];
     }
+
     
     //
     func showTouchState(animation:Bool) {
@@ -241,7 +188,7 @@ class ButtonView: UIControl {
         }
         
         UIView.animate(
-            withDuration: animation ? 0.2 : 0,
+            withDuration: animation ? 0 : 0.2,
             delay: 0,
             options: .curveEaseOut,
             animations: {
@@ -251,7 +198,7 @@ class ButtonView: UIControl {
                     return;
                 }
                 if self.viewHilightModes.background == .dark {
-                    self.allCoverView?.isHidden = false
+                    self.allCoverView.isHidden = false
                     return;
                 }
                 
@@ -303,7 +250,7 @@ class ButtonView: UIControl {
         }
         
         UIView.animate(
-            withDuration: animation ? 0.2 : 0,
+            withDuration: animation ? 0 : 0.2,
             delay: 0,
             options: .curveEaseOut,
             animations: {
@@ -314,7 +261,7 @@ class ButtonView: UIControl {
                 }
                 
                 if self.viewHilightModes.background == .dark {
-                    self.allCoverView?.isHidden = true
+                    self.allCoverView.isHidden = true
                     return
                 }
                 
@@ -362,101 +309,7 @@ class ButtonView: UIControl {
     
     }
     
-    //MARK:UIControlState function
-
-    var highlightedView:UIView?
-    var disabledView:UIView?
-    var selectedView:UIView?
-    // 未実装:fucused,application,reserved
-    
-    func setView(view:UIView?, forState:UIControlState) {
-        guard let view = view else {
-            return;
-        }
-        
-        if forState == UIControlState.highlighted {
-            highlightedView = view
-            highlightedView!.tag = 1
-            highlightedView!.isUserInteractionEnabled = false
-            removeView(tag: 1)
-            self.addSubviewAndFit(subview: highlightedView!, parentView: self)
-        }
-        if forState == UIControlState.disabled {
-            disabledView = view
-            disabledView!.tag = 2
-            disabledView!.isUserInteractionEnabled = false
-            removeView(tag: 2)
-            self.addSubviewAndFit(subview: disabledView!, parentView: self)
-            
-        }
-        if forState == UIControlState.selected {
-            selectedView = view
-            selectedView!.tag = 3
-            selectedView!.isUserInteractionEnabled = false
-            removeView(tag: 3)
-            self.addSubviewAndFit(subview: selectedView!, parentView: self)
-        }
-        
-        didSetControlStates()
-    }
-    
-    func removeView(tag:Int) {
-        for v:UIView in self.subviews {
-            if v.tag == tag {
-                v.removeFromSuperview()
-            }
-        }
-    }
-    
-    override var isHighlighted: Bool {
-        willSet {
-        }
-        
-        didSet {
-            self.didSetControlStates()
-        }
-    }
-    
-    override var isEnabled: Bool {
-        willSet {
-        }
-        
-        didSet {
-            self.didSetControlStates()
-        }
-    }
-    
-    override var isSelected: Bool {
-        willSet {
-        }
-        
-        didSet {
-            self.didSetControlStates()
-        }
-    }
-    
-    func didSetControlStates() {
-        allControlStatesSubviewHidden()
-        
-        if self.isHighlighted {
-            if let highlightedView = highlightedView {
-                highlightedView.isHidden = false
-            }
-        }
-        if !self.isEnabled {
-            if let disabledView = disabledView {
-                disabledView.isHidden = false
-            }
-        }
-        if self.isSelected {
-            if let selectedView = selectedView {
-                selectedView.isHidden = false
-            }
-        }
-    }
-    
-    //MARK:util
-    
+    // util
     func isView(v:Any?) -> Bool {
         // UIViewであり、label、imageではないものすべて
         
@@ -476,25 +329,7 @@ class ButtonView: UIControl {
         
         return false
     }
-
-    func addSubviewAndFit(subview:UIView, parentView:UIView) {
-        subview.translatesAutoresizingMaskIntoConstraints = false
-        parentView.addSubview(subview)
-        parentView.addConstraint(NSLayoutConstraint(item: subview, attribute: .top, relatedBy: .equal, toItem: parentView, attribute: .top, multiplier: 1.0, constant: 0.0))
-        parentView.addConstraint(NSLayoutConstraint(item: subview, attribute: .leading, relatedBy: .equal, toItem: parentView, attribute: .leading, multiplier: 1.0, constant: 0.0))
-        parentView.addConstraint(NSLayoutConstraint(item: parentView, attribute: .bottom, relatedBy: .equal, toItem: subview, attribute: .bottom, multiplier: 1.0, constant: 0.0))
-        parentView.addConstraint(NSLayoutConstraint(item: parentView, attribute: .trailing, relatedBy: .equal, toItem: subview, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-    }
     
-    func allControlStatesSubviewHidden() {
-        for subview:UIView in self.subviews {
-            if (subview.isEqual(highlightedView) ||
-                subview.isEqual(disabledView) ||
-                subview.isEqual(selectedView)) {
-                
-                subview.isHidden = true
-            }
-        }
-    }
+    
 }
 
