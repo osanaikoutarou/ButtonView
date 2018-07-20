@@ -415,8 +415,6 @@ class ButtonView: UIControl {
                 
         },
             completion: nil)
-        
-        
     }
     
     //MARK:UIControlState function
@@ -425,6 +423,18 @@ class ButtonView: UIControl {
     var disabledView:UIView?
     var selectedView:UIView?
     // 未実装:fucused,application,reserved
+ 
+    struct StateStyle {
+        let state:UIControlState
+        let textColor:UIColor
+        let backgroundColor:UIColor
+    }
+    
+    var stateStyles:[StateStyle] = []
+}
+
+// ControlState
+extension ButtonView {
     
     func setView(view:UIView?, forState:UIControlState) {
         guard let view = view else {
@@ -456,6 +466,10 @@ class ButtonView: UIControl {
         }
         
         didSetControlStates()
+    }
+    
+    func addStateStyle(style: StateStyle) {
+        stateStyles.append(style)
     }
     
     func removeView(tag:Int) {
@@ -511,12 +525,44 @@ class ButtonView: UIControl {
                 selectedView.isHidden = false
             }
         }
+        
+        if self.state == .normal {
+            let style = stateStyles.filter { $0.state == .normal }
+            if let style = style.first {
+                self.backgroundColor = style.backgroundColor
+                setLabelsTextColor(color: style.textColor)
+            }
+        }
+        if self.state == .highlighted {
+            let style = stateStyles.filter { $0.state == .highlighted }
+            if let style = style.first {
+                self.backgroundColor = style.backgroundColor
+                setLabelsTextColor(color: style.textColor)
+            }
+        }
+        if self.state == .disabled {
+            let style = stateStyles.filter { $0.state == .disabled }
+            if let style = style.first {
+                self.backgroundColor = style.backgroundColor
+                setLabelsTextColor(color: style.textColor)
+            }
+        }
+        if self.state == .selected {
+            let style = stateStyles.filter { $0.state == .selected }
+            if let style = style.first {
+                self.backgroundColor = style.backgroundColor
+                setLabelsTextColor(color: style.textColor)
+            }
+        }
     }
     
-    //MARK:util
+}
+
+// Util
+extension ButtonView {
     
     func isView(v:Any?) -> Bool {
-        // UIViewであり、label、imageではないものすべて
+        // UIView (without label,image)
         
         guard let _ = v else {
             return false
@@ -534,6 +580,18 @@ class ButtonView: UIControl {
         
         return false
     }
+    
+    func setLabelsTextColor(color:UIColor) {
+        self.subviews.forEach { (view) in
+            if (view is UILabel) {
+                (view as! UILabel).textColor = color
+            }
+        }
+    }
+}
+
+// Layout
+extension ButtonView {
     
     func addSubviewAndFit(subview:UIView, parentView:UIView) {
         subview.translatesAutoresizingMaskIntoConstraints = false
