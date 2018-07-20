@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var lighterTheWholeButtonView: ButtonView!
     @IBOutlet weak var likeButtonPlaneButtonView: ButtonView!
     @IBOutlet weak var likeButtonCustomButtonView: ButtonView!
+    @IBOutlet weak var whiteTheWholeButtonView: ButtonView!
     
     @IBOutlet weak var iconImageView1: UIImageView!
     @IBOutlet weak var iconImageView2: UIImageView!
@@ -47,6 +48,7 @@ class ViewController: UIViewController {
         lighterTheWholeButtonView.setup(type: .lighterTheWhole)
         likeButtonPlaneButtonView.setup(type: .likeUIButtonPlane)
         likeButtonCustomButtonView.setup(type: .likeUIButtonCustom)
+        whiteTheWholeButtonView.setup(type: .whiteTheWhole)
     }
 
     @IBAction func tappedYellowButtonView(_ sender: ButtonView) {
