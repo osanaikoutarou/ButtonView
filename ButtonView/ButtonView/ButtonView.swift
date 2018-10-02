@@ -11,89 +11,9 @@ import UIKit
 @objcMembers
 class ButtonView: UIControl {
     
-    enum ButtonViewType {
-        case componentLight     //Default. It get lighter all subviews（without background）.
-        case componentDark      //It get darker all subviews（without background and label）.
-        
-        case lighterTheWhole    //It get lighter parent view by alpha.
-        case darkerTheWhole     //It get darker parent view by cover view.
-        case whiteTheWhole      //It get whiter by cover view
-        
-        case likeUIButtonPlane  //It get lighter only labels.
-        case likeUIButtonCustom //It get darker only images.
-        case likeUIButton       //if(exist images) -> likeUIButtonCustom else -> likeUIButtonPlane
-        
-        case noChange           //No change in visible.
-        
-        case customMode         //Specify individually
-    }
-    
-    enum HilightMode {
-        case none
-        case dark
-        case light
-        case white
-    }
-    
-    var backgroundImageName:String?
+    var coverImageName:String?
     let defaultAlpha:CGFloat = 1.0
     var type:ButtonViewType = .componentLight
-    
-    // 各パーツ毎の設定
-    class ViewHilightModes {
-        var background:HilightMode = .none
-        var label:HilightMode = .none
-        var imageView:HilightMode = .none
-        var uiView:HilightMode = .none
-        
-        func resetToNone() {
-            background = .none
-            label = .none
-            imageView = .none
-            uiView = .none
-        }
-        
-        func setupHighlight(type:ButtonViewType) {
-            resetToNone()
-            
-            switch type {
-            case .likeUIButton:
-                
-                break
-            case .likeUIButtonPlane:
-                label = .light
-                break
-            case .likeUIButtonCustom:
-                imageView = .dark
-                label = .none
-                uiView = .dark
-                break
-            case .componentLight:
-                imageView = .light
-                label = .light
-                uiView = .light
-                break
-            case .componentDark:
-                imageView = .dark
-                label = .dark
-                uiView = .dark
-                break
-            case .lighterTheWhole:
-                background = .light
-                break
-            case .darkerTheWhole:
-                background = .dark
-                break
-            case .noChange:
-                break
-            case .whiteTheWhole:
-                background = .white
-                break
-            case .customMode:
-                break
-            }
-        }
-    }
     let viewHilightModes = ViewHilightModes()
     
     // for cover
@@ -101,83 +21,8 @@ class ButtonView: UIControl {
     var coverViewViews:[UIView] = []
     var allCoverView:UIView?
     
-    func setupCoverView() {
-        if viewHilightModes.imageView == .dark {
-            self.addDarkCoverViewsForImageView()
-        }
-        
-        if viewHilightModes.uiView == .dark {
-            self.addDarkCoverViewsForViews()
-        }
-    }
-    
-    // imageviewを覆うdark view
-    func addDarkCoverViewsForImageView() {
-        if (coverImageViewViews.count>0) {
-            return
-        }
-        
-        for subview in self.subviews {
-            if subview is UIImageView {
-                let coverView = UIView()
-                coverView.frame = subview.bounds
-                coverView.backgroundColor = UIColor.black
-                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
-                coverView.isHidden = true
-                coverView.isUserInteractionEnabled = false
-                subview.addSubview(coverView)
-                coverImageViewViews.append(coverView)
-            }
-        }
-    }
-    
-    // viewを覆うdark view
-    func addDarkCoverViewsForViews() {
-        if (coverViewViews.count>0) {
-            return;
-        }
-        
-        for subview in self.subviews {
-            
-            if isView(v: subview) {
-                let coverView = UIView()
-                coverView.frame = subview.bounds
-                coverView.backgroundColor = UIColor.black
-                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
-                coverView.isHidden = true
-                coverView.isUserInteractionEnabled = false
-                subview.addSubview(coverView)
-                coverViewViews.append(coverView)
-            }
-        }
-    }
-    
-    // 全体を覆うdark view
-    func addAllCoverView() {
-        
-        if (allCoverView != nil) {
-            return
-        }
-        
-        allCoverView = UIView()
-        allCoverView?.frame = self.bounds
-        if (self.type == .whiteTheWhole) {
-            allCoverView?.backgroundColor = UIColor.white
-            allCoverView?.alpha = 0.7
-        }
-        else {
-            allCoverView?.backgroundColor = UIColor.black
-            allCoverView?.alpha = 0.5
-        }
-        allCoverView?.isHidden = true
-        allCoverView?.isUserInteractionEnabled = false
-        self.addSubview(allCoverView!)
-        
-    }
-    
     // タッチ状態
     var onTouch:Bool = false
-    
     // タッチしたポイント
     var touchDownPoint:CGPoint = .zero
     
@@ -190,7 +35,11 @@ class ButtonView: UIControl {
         self.commonInit()
     }
     func commonInit() {
-        
+        addTargets()
+        setup(type: .likeUIButtonPlane)
+    }
+    
+    func addTargets() {
         addTarget(self, action: #selector(touchDown),           for: .touchDown)
         addTarget(self, action: #selector(touchUpInside),       for: .touchUpInside)
         addTarget(self, action: #selector(touchUpOutside),      for: .touchUpOutside)
@@ -199,8 +48,6 @@ class ButtonView: UIControl {
         addTarget(self, action: #selector(touchDragEnter),      for: .touchDragEnter)
         addTarget(self, action: #selector(touchDragExit),       for: .touchDragExit)
         addTarget(self, action: #selector(touchCancel),         for: .touchCancel)
-        
-        setup(type: .likeUIButtonPlane)
     }
     
     // interface
@@ -217,7 +64,7 @@ class ButtonView: UIControl {
             addAllCoverView()
         }
         
-        setupCoverView()
+        createCoverView()
     }
     
     // bridge
@@ -295,15 +142,15 @@ class ButtonView: UIControl {
             options: .curveEaseOut,
             animations: {
                 
-                if self.viewHilightModes.background == .light {
+                if self.viewHilightModes.cover == .light {
                     self.alpha = 0.2
                     return;
                 }
-                if self.viewHilightModes.background == .dark {
+                if self.viewHilightModes.cover == .dark {
                     self.allCoverView?.isHidden = false
                     return;
                 }
-                if self.viewHilightModes.background == .white {
+                if self.viewHilightModes.cover == .white {
                     self.allCoverView?.isHidden = false
                     return;
                 }
@@ -361,16 +208,16 @@ class ButtonView: UIControl {
             options: .curveEaseOut,
             animations: {
                 
-                if self.viewHilightModes.background == .light {
+                if self.viewHilightModes.cover == .light {
                     self.alpha = self.defaultAlpha
                     return
                 }
                 
-                if self.viewHilightModes.background == .dark {
+                if self.viewHilightModes.cover == .dark {
                     self.allCoverView?.isHidden = true
                     return
                 }
-                if self.viewHilightModes.background == .white {
+                if self.viewHilightModes.cover == .white {
                     self.allCoverView?.isHidden = true
                     return;
                 }
@@ -423,7 +270,7 @@ class ButtonView: UIControl {
     var disabledView:UIView?
     var selectedView:UIView?
     // 未実装:fucused,application,reserved
- 
+    
     struct StateStyle {
         let state:UIControlState
         let textColor:UIColor
@@ -628,3 +475,169 @@ extension ButtonView {
     }
 }
 
+
+//MARK: - enum
+extension ButtonView {
+    
+    enum ButtonViewType {
+        case componentLight     //Default. It get lighter all subviews（without background）.
+        case componentDark      //It get darker all subviews（without background and label）.
+        
+        case lighterTheWhole    //It get lighter parent view by alpha.
+        case darkerTheWhole     //It get darker parent view by cover view.
+        case whiteTheWhole      //It get whiter by cover view
+        
+        case likeUIButtonPlane  //It get lighter only labels.
+        case likeUIButtonCustom //It get darker only images.
+        case likeUIButton       //if(exist images) -> likeUIButtonCustom else -> likeUIButtonPlane
+        
+        case noChange           //No change in visible.
+        
+        case customMode         //Specify individually
+    }
+    
+    enum HilightMode {
+        case none       // Nothing todo
+        case dark
+        case light
+        case white
+    }
+}
+
+extension ButtonView {
+    
+    // 各パーツ毎の設定
+    class ViewHilightModes {
+        var cover:HilightMode = .none
+        var label:HilightMode = .none
+        var imageView:HilightMode = .none
+        var uiView:HilightMode = .none
+        
+        func setModes(cover:HilightMode, label:HilightMode, imageView:HilightMode, uiView:HilightMode) {
+            self.cover = cover
+            self.label = label
+            self.imageView = imageView
+            self.uiView = uiView
+        }
+        
+        func setToNone() {
+            cover = .none
+            label = .none
+            imageView = .none
+            uiView = .none
+        }
+        
+        func setupHighlight(type:ButtonViewType) {
+            
+            switch type {
+            case .likeUIButton:
+                setToNone()
+            case .likeUIButtonPlane:
+                setModes(cover: .none, label: .light, imageView: .none, uiView: .none)
+            case .likeUIButtonCustom:
+                setModes(cover: .none, label: .none, imageView: .dark, uiView: .dark)
+            case .componentLight:
+                setModes(cover: .none, label: .light, imageView: .light, uiView: .light)
+            case .componentDark:
+                setModes(cover: .none, label: .dark, imageView: .dark, uiView: .dark)
+            case .lighterTheWhole:
+                setModes(cover: .light, label: .none, imageView: .none, uiView: .none)
+            case .darkerTheWhole:
+                setModes(cover: .dark, label: .none, imageView: .none, uiView: .none)
+            case .noChange:
+                setToNone()
+            case .whiteTheWhole:
+                setModes(cover: .white, label: .none, imageView: .none, uiView: .none)
+            case .customMode:
+                setToNone()
+            }
+        }
+    }
+}
+
+extension ButtonView {
+    func createCoverView() {
+        // ImageViewとUIViewを暗くするために、上にViewを重ねている
+        // 必要な場合、必要な分生成する
+        if viewHilightModes.imageView == .dark {
+            self.addDarkCoverViewsForImageView()
+        }
+        
+        if viewHilightModes.uiView == .dark {
+            self.addDarkCoverViewsForViews()
+        }
+    }
+    
+    // imageviewを覆うdark view
+    func addDarkCoverViewsForImageView() {
+        if (coverImageViewViews.count > 0) {
+            // 作成済み
+            return
+        }
+        
+        for subview in self.subviews {
+            if subview is UIImageView {
+                let coverView = UIView()
+                coverView.frame = subview.bounds
+                coverView.backgroundColor = UIColor.black
+                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
+                coverView.isHidden = true
+                coverView.isUserInteractionEnabled = false
+                // 階層を壊さないためにsubviewにaddする
+                //（孫階層は壊してしまうので今後の課題）
+                subview.addSubview(coverView)
+                coverImageViewViews.append(coverView)
+            }
+        }
+    }
+    
+    // viewを覆うdark view
+    func addDarkCoverViewsForViews() {
+        if (coverViewViews.count > 0) {
+            // 作成済み
+            return;
+        }
+        
+        for subview in self.subviews {
+            
+            if isView(v: subview) {
+                let coverView = UIView()
+                coverView.frame = subview.bounds
+                coverView.backgroundColor = UIColor.black
+                coverView.alpha = 0.5 //DARK_VIEW_ALPHA
+                coverView.isHidden = true
+                coverView.isUserInteractionEnabled = false
+                subview.addSubview(coverView)
+                coverViewViews.append(coverView)
+            }
+        }
+    }
+    
+    // 全体を覆うView（white,black）
+    func addAllCoverView() {
+        
+        if (allCoverView != nil) {
+            return
+        }
+        
+        allCoverView = UIView()
+        
+        guard let allCoverView = allCoverView else {
+            print("🤔")
+            return
+        }
+        
+        allCoverView.frame = self.bounds
+        if (self.type == .whiteTheWhole) {
+            allCoverView.backgroundColor = UIColor.white
+            allCoverView.alpha = 0.7
+        }
+        else {
+            allCoverView.backgroundColor = UIColor.black
+            allCoverView.alpha = 0.5
+        }
+        allCoverView.isHidden = true
+        allCoverView.isUserInteractionEnabled = false
+        self.addSubview(allCoverView)
+    }
+}
