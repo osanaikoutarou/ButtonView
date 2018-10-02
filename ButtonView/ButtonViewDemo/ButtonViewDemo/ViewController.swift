@@ -10,20 +10,22 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var sampleTableView: UITableViewCell!
+    
     @IBOutlet weak var yellowButtonView: ButtonView!
     
     @IBOutlet var selectedView: UIView!
     @IBOutlet var disabledView: UIView!
     @IBOutlet var highlightView: UIView!
     
-    @IBOutlet weak var buttonView: ButtonView!
-    @IBOutlet weak var componentLightButtonView: ButtonView!
-    @IBOutlet weak var componentDarkButtonView: ButtonView!
-    @IBOutlet weak var baseDarkButtonView: ButtonView!
-    @IBOutlet weak var lighterTheWholeButtonView: ButtonView!
-    @IBOutlet weak var likeButtonPlaneButtonView: ButtonView!
-    @IBOutlet weak var likeButtonCustomButtonView: ButtonView!
-    @IBOutlet weak var whiteTheWholeButtonView: ButtonView!
+//    @IBOutlet weak var buttonView: ButtonView!
+//    @IBOutlet weak var componentLightButtonView: ButtonView!
+//    @IBOutlet weak var componentDarkButtonView: ButtonView!
+//    @IBOutlet weak var baseDarkButtonView: ButtonView!
+//    @IBOutlet weak var lighterTheWholeButtonView: ButtonView!
+//    @IBOutlet weak var likeButtonPlaneButtonView: ButtonView!
+//    @IBOutlet weak var likeButtonCustomButtonView: ButtonView!
+//    @IBOutlet weak var whiteTheWholeButtonView: ButtonView!
     
     @IBOutlet weak var iconImageView1: UIImageView!
     @IBOutlet weak var iconImageView2: UIImageView!
@@ -38,30 +40,50 @@ class ViewController: UIViewController {
         iconImageView2.clipsToBounds = true
 
         
-        buttonView.setView(view: selectedView, forState: .selected)
-        buttonView.setView(view: disabledView, forState: .disabled)
-        buttonView.setView(view: highlightView, forState: .highlighted)
-        
-        componentLightButtonView.setup(type: .componentLight)
-        componentDarkButtonView.setup(type: .componentDark)
-        baseDarkButtonView.setup(type: .darkerTheWhole)
-        lighterTheWholeButtonView.setup(type: .lighterTheWhole)
-        likeButtonPlaneButtonView.setup(type: .likeUIButtonPlane)
-        likeButtonCustomButtonView.setup(type: .likeUIButtonCustom)
-        whiteTheWholeButtonView.setup(type: .whiteTheWhole)
+//        buttonView.setView(view: selectedView, forState: .selected)
+//        buttonView.setView(view: disabledView, forState: .disabled)
+//        buttonView.setView(view: highlightView, forState: .highlighted)
+//
+//        componentLightButtonView.setup(type: .componentLight)
+//        componentDarkButtonView.setup(type: .componentDark)
+//        baseDarkButtonView.setup(type: .darkerTheWhole)
+//        lighterTheWholeButtonView.setup(type: .lighterTheWhole)
+//        likeButtonPlaneButtonView.setup(type: .likeUIButtonPlane)
+//        likeButtonCustomButtonView.setup(type: .likeUIButtonCustom)
+//        whiteTheWholeButtonView.setup(type: .whiteTheWhole)
     }
 
-    @IBAction func tappedYellowButtonView(_ sender: ButtonView) {
-        print("tapped yellow button view")
-    }
-    
-    @IBAction func tappedToggleSelected(_ sender: UIButton) {
-        buttonView.isSelected = !buttonView.isSelected
-    }
-    @IBAction func tappedToggleEnabled(_ sender: UIButton) {
-        buttonView.isEnabled = !buttonView.isEnabled
-    }
+//    @IBAction func tappedYellowButtonView(_ sender: ButtonView) {
+//        print("tapped yellow button view")
+//    }
+//
+//    @IBAction func tappedToggleSelected(_ sender: UIButton) {
+//        buttonView.isSelected = !buttonView.isSelected
+//    }
+//    @IBAction func tappedToggleEnabled(_ sender: UIButton) {
+//        buttonView.isEnabled = !buttonView.isEnabled
+//    }
 
 
 }
 
+extension UIViewController:UITableViewDelegate,UITableViewDataSource {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "", for: indexPath)
+        return cell
+    }
+}
+
+class SimpleTableViewCell:UITableViewCell {
+    @IBOutlet weak var buttonView: ButtonView!
+    
+//    func awakeFromNib() {
+//        if (self.reuseIdentifier) {
+//
+//        }
+//    }
+}
