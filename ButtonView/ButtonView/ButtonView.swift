@@ -8,23 +8,40 @@
 
 import UIKit
 
-@objcMembers
 class ButtonView: UIControl {
     
-    var coverImageName:String?
-    let defaultAlpha:CGFloat = 1.0
-    var type:ButtonViewType = .componentLight
-    let viewHilightModes = ViewHilightModes()
+    //MARK: -
+    
+    fileprivate var coverImageName:String?
+    fileprivate let defaultAlpha:CGFloat = 1.0
+    fileprivate var type:ButtonViewType = .componentLight
+    fileprivate let viewHilightModes = ViewHilightModes()
     
     // for cover
-    var coverImageViewViews:[UIView] = []
-    var coverViewViews:[UIView] = []
-    var allCoverView:UIView?
+    fileprivate var coverImageViewViews:[UIView] = []
+    fileprivate var coverViewViews:[UIView] = []
+    fileprivate var allCoverView:UIView?
     
     // タッチ状態
-    var onTouch:Bool = false
+    fileprivate var isOnTouch:Bool = false
     // タッチしたポイント
-    var touchDownPoint:CGPoint = .zero
+    fileprivate var touchDownPoint:CGPoint = .zero
+    
+    //MARK: - UIControlState function
+    
+    // 未実装:focused,application,reserved
+    fileprivate var forHighlightedView:UIView?
+    fileprivate var forDisabledView:UIView?
+    fileprivate var forSelectedView:UIView?
+    
+    struct StateStyle {
+        let state:UIControlState
+        let textColor:UIColor
+        let backgroundColor:UIColor
+    }
+    
+    var stateStyles:[StateStyle] = []
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,12 +51,12 @@ class ButtonView: UIControl {
         super.init(coder: aDecoder)
         self.commonInit()
     }
-    func commonInit() {
+    fileprivate func commonInit() {
         addTargets()
         setup(type: .likeUIButtonPlane)
     }
     
-    func addTargets() {
+    fileprivate func addTargets() {
         addTarget(self, action: #selector(touchDown),           for: .touchDown)
         addTarget(self, action: #selector(touchUpInside),       for: .touchUpInside)
         addTarget(self, action: #selector(touchUpOutside),      for: .touchUpOutside)
@@ -66,75 +83,17 @@ class ButtonView: UIControl {
         
         createCoverView()
     }
+}
+
+extension ButtonView {
     
-    // bridge
-    //TODO:enum of objective-cに
-    @objc func setup(typeString:String) {
-        var type:ButtonViewType = .componentLight
+    // タッチ状態
+    fileprivate func showTouchStateDispay(animation:Bool) {
         
-        if typeString == "componentLight" {
-            type = .componentLight
-        }
-        else if typeString == "componentDark" {
-            type = .componentDark
-        }
-        else if typeString == "lighterTheWhole" {
-            type = .lighterTheWhole
-        }
-        else if typeString == "darkerTheWhole" {
-            type = .darkerTheWhole
-        }
-        else if typeString == "likeUIButtonPlane" {
-            type = .likeUIButtonPlane
-        }
-        else if typeString == "likeUIButtonCustom" {
-            type = .likeUIButtonCustom
-        }
-        else if typeString == "likeUIButton" {
-            type = .likeUIButton
-        }
-        else if typeString == "noChange" {
-            type = .noChange
-        }
-        setup(type: type)
-    }
-    
-    // event
-    @objc func touchDown() {
-        //        print("touch down")
-        showTouchState(animation: false)
-    }
-    @objc func touchUpInside() {
-        //        print("touch up inside")
-        showUpState(animation: true)
-    }
-    @objc func touchUpOutside() {
-        //        print("touch up outside")
-        showUpState(animation: true)
-    }
-    @objc func touchDragInside() {
-    }
-    @objc func touchDragOutside() {
-        showUpState(animation: true)
-    }
-    @objc func touchDragEnter() {
-        showTouchState(animation: true)
-    }
-    @objc func touchDragExit() {
-        showUpState(animation: true)
-    }
-    @objc func touchCancel() {
-        showUpState(animation: true)
-    }
-    
-    //
-    func showTouchState(animation:Bool) {
-        if onTouch {
+        if isOnTouch {
             return
         }
-        else {
-            onTouch = true
-        }
+        isOnTouch = true
         
         UIView.animate(
             withDuration: animation ? 0.2 : 0,
@@ -154,16 +113,18 @@ class ButtonView: UIControl {
                     self.allCoverView?.isHidden = false
                     return;
                 }
+
+                // cover == .none
                 
                 if self.viewHilightModes.label == .light {
-                    for v in self.subviews {
+                    for v in self.flatSubViews() {
                         if v is UILabel {
                             v.alpha = 0.2
                         }
                     }
                 }
                 if self.viewHilightModes.imageView == .light {
-                    for v in self.subviews {
+                    for v in self.flatSubViews() {
                         if v is UIImageView {
                             v.alpha = 0.2
                         }
@@ -177,7 +138,7 @@ class ButtonView: UIControl {
                 }
                 
                 if self.viewHilightModes.uiView == .light {
-                    for v in self.subviews {
+                    for v in self.flatSubViews() {
                         if self.isView(v: v) {
                             v.alpha = 0.2
                         }
@@ -194,14 +155,13 @@ class ButtonView: UIControl {
     }
     
     // 離された状態
-    func showUpState(animation:Bool) {
-        if onTouch {
-            onTouch = false
-        }
-        else {
+    fileprivate func showUpStateDispay(animation:Bool) {
+        if !isOnTouch {
             return
         }
-        
+
+        isOnTouch = false
+
         UIView.animate(
             withDuration: animation ? 0.2 : 0,
             delay: 0,
@@ -222,8 +182,10 @@ class ButtonView: UIControl {
                     return;
                 }
                 
+                // cover == .none
+                
                 if self.viewHilightModes.label == .light {
-                    for v in self.subviews {
+                    for v in self.flatSubViews() {
                         if v is UILabel {
                             v.alpha = 1.0
                         }
@@ -231,7 +193,7 @@ class ButtonView: UIControl {
                 }
                 
                 if self.viewHilightModes.imageView == .light {
-                    for v in self.subviews {
+                    for v in self.flatSubViews() {
                         if v is UIImageView {
                             v.alpha = 1.0
                         }
@@ -245,7 +207,7 @@ class ButtonView: UIControl {
                 }
                 
                 if self.viewHilightModes.uiView == .light {
-                    for v in self.subviews {
+                    for v in self.flatSubViews() {
                         if self.isView(v: v) {
                             //TODO:default alpha
                             v.alpha = 1.0
@@ -263,53 +225,71 @@ class ButtonView: UIControl {
         },
             completion: nil)
     }
-    
-    //MARK:UIControlState function
-    
-    var highlightedView:UIView?
-    var disabledView:UIView?
-    var selectedView:UIView?
-    // 未実装:fucused,application,reserved
-    
-    struct StateStyle {
-        let state:UIControlState
-        let textColor:UIColor
-        let backgroundColor:UIColor
-    }
-    
-    var stateStyles:[StateStyle] = []
+
 }
 
-// ControlState
+extension ButtonView {
+    // event
+    @objc func touchDown() {
+        showTouchStateDispay(animation: false)
+    }
+    @objc func touchUpInside() {
+        showUpStateDispay(animation: true)
+    }
+    @objc func touchUpOutside() {
+        showUpStateDispay(animation: true)
+    }
+    @objc func touchDragInside() {
+    }
+    @objc func touchDragOutside() {
+        showUpStateDispay(animation: true)
+    }
+    @objc func touchDragEnter() {
+        showTouchStateDispay(animation: true)
+    }
+    @objc func touchDragExit() {
+        showUpStateDispay(animation: true)
+    }
+    @objc func touchCancel() {
+        showUpStateDispay(animation: true)
+    }
+
+}
+
+//MARK: - for ControlState
 extension ButtonView {
     
-    func setView(view:UIView?, forState:UIControlState) {
+    // 各UIControlStateのViewを設定する
+    func setView(view:UIView?, for state:UIControlState) {
         guard let view = view else {
             return;
         }
         
-        if forState == UIControlState.highlighted {
-            highlightedView = view
-            highlightedView!.tag = 1
-            highlightedView!.isUserInteractionEnabled = false
-            removeView(tag: 1)
-            self.addSubviewAndFit(subview: highlightedView!, parentView: self)
+        if state == UIControlState.highlighted {
+            let tag = 1000001
+            forHighlightedView = view
+            forHighlightedView!.tag = tag   //TODO:被らないように🤔
+            forHighlightedView!.isUserInteractionEnabled = false
+            removeView(tag: tag)
+            self.addSubviewAndFit(subview: forHighlightedView!, parentView: self)
             
         }
-        if forState == UIControlState.disabled {
-            disabledView = view
-            disabledView!.tag = 2
-            disabledView!.isUserInteractionEnabled = false
-            removeView(tag: 2)
-            self.addSubviewAndFit(subview: disabledView!, parentView: self)
+        if state == UIControlState.disabled {
+            let tag = 1000002
+            forDisabledView = view
+            forDisabledView!.tag = tag
+            forDisabledView!.isUserInteractionEnabled = false
+            removeView(tag: tag)
+            self.addSubviewAndFit(subview: forDisabledView!, parentView: self)
             
         }
-        if forState == UIControlState.selected {
-            selectedView = view
-            selectedView!.tag = 3
-            selectedView!.isUserInteractionEnabled = false
-            removeView(tag: 3)
-            self.addSubviewAndFit(subview: selectedView!, parentView: self)
+        if state == UIControlState.selected {
+            let tag = 1000003
+            forSelectedView = view
+            forSelectedView!.tag = tag
+            forSelectedView!.isUserInteractionEnabled = false
+            removeView(tag: tag)
+            self.addSubviewAndFit(subview: forSelectedView!, parentView: self)
         }
         
         didSetControlStates()
@@ -354,21 +334,22 @@ extension ButtonView {
         }
     }
     
+    
     func didSetControlStates() {
         allControlStatesSubviewHidden()
         
         if self.isHighlighted {
-            if let highlightedView = highlightedView {
+            if let highlightedView = forHighlightedView {
                 highlightedView.isHidden = false
             }
         }
         if !self.isEnabled {
-            if let disabledView = disabledView {
+            if let disabledView = forDisabledView {
                 disabledView.isHidden = false
             }
         }
         if self.isSelected {
-            if let selectedView = selectedView {
+            if let selectedView = forSelectedView {
                 selectedView.isHidden = false
             }
         }
@@ -451,9 +432,9 @@ extension ButtonView {
     
     func allControlStatesSubviewHidden() {
         for subview:UIView in self.subviews {
-            if (subview.isEqual(highlightedView) ||
-                subview.isEqual(disabledView) ||
-                subview.isEqual(selectedView)) {
+            if (subview.isEqual(forHighlightedView) ||
+                subview.isEqual(forDisabledView) ||
+                subview.isEqual(forSelectedView)) {
                 
                 subview.isHidden = true
             }
@@ -639,5 +620,17 @@ extension ButtonView {
         allCoverView.isHidden = true
         allCoverView.isUserInteractionEnabled = false
         self.addSubview(allCoverView)
+    }
+}
+
+
+extension UIView {
+    
+    func flatSubViews() -> [UIView] {
+        var result:[UIView] = subviews
+        for view in self.subviews {
+            result += view.flatSubViews()
+        }
+        return result
     }
 }
