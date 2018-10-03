@@ -139,7 +139,7 @@ class ButtonView: UIControl {
         UIView.animate(
             withDuration: animation ? 0.2 : 0,
             delay: 0,
-            options: .curveEaseOut,
+            options: .curveEaseIn,
             animations: {
                 
                 if self.viewHilightModes.cover == .light {
@@ -203,9 +203,9 @@ class ButtonView: UIControl {
         }
         
         UIView.animate(
-            withDuration: animation ? 0.2 : 0,
+            withDuration: animation ? 0.25 : 0,
             delay: 0,
-            options: .curveEaseOut,
+            options: .curveEaseIn,
             animations: {
                 
                 if self.viewHilightModes.cover == .light {
@@ -480,7 +480,7 @@ extension ButtonView {
 extension ButtonView {
     
     enum ButtonViewType {
-        case componentLight     //Default. It get lighter all subviews（without background）.
+        case componentLight     //Default. It get lighter all subviews（without background）. 
         case componentDark      //It get darker all subviews（without background and label）.
         
         case lighterTheWhole    //It get lighter parent view by alpha.
