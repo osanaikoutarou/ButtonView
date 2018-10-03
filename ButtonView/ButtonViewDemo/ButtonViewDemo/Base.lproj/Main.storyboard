@@ -25,20 +25,20 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="componentLight" rowHeight="60" id="xo8-qx-orS" customClass="SimpleTableViewCell" customModule="ButtonViewDemo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xo8-qx-orS" id="hU6-dt-5fF">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xo8-qx-orS" id="hU6-dt-5fF">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RdA-iv-xeu" customClass="ButtonView" customModule="ButtonViewDemo" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RdA-iv-xeu" customClass="ButtonView" customModule="ButtonViewDemo" customModuleProvider="target">
                                                     <rect key="frame" x="60" y="10.5" width="200" height="40"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="componentLight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdn-2S-1Lh">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="componentLight" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdn-2S-1Lh">
                                                             <rect key="frame" x="8" y="10" width="125.5" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <color key="highlightedColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </label>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="icon_info" translatesAutoresizingMaskIntoConstraints="NO" id="nQv-Nn-jbL">
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" image="icon_info" translatesAutoresizingMaskIntoConstraints="NO" id="nQv-Nn-jbL">
                                                             <rect key="frame" x="164" y="9.5" width="21" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="cya-da-ce7"/>
@@ -77,20 +77,20 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="componentDark" rowHeight="60" id="EYo-nK-f1y" customClass="SimpleTableViewCell" customModule="ButtonViewDemo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="88" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EYo-nK-f1y" id="lih-ks-GRT">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EYo-nK-f1y" id="lih-ks-GRT">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dB8-vY-6cB" customClass="ButtonView" customModule="ButtonViewDemo" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dB8-vY-6cB" customClass="ButtonView" customModule="ButtonViewDemo" customModuleProvider="target">
                                                     <rect key="frame" x="60" y="10.5" width="200" height="40"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="componentDark" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWp-bw-fzq">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="componentDark" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWp-bw-fzq">
                                                             <rect key="frame" x="8" y="10" width="123" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <color key="highlightedColor" red="0.23137254900000001" green="0.23137254900000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </label>
-                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="icon_info" translatesAutoresizingMaskIntoConstraints="NO" id="7wT-sU-rys">
+                                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" image="icon_info" translatesAutoresizingMaskIntoConstraints="NO" id="7wT-sU-rys">
                                                             <rect key="frame" x="164" y="9.5" width="21" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="KVX-lD-jh5"/>
@@ -495,6 +495,81 @@
                                             <outlet property="faceLabel2" destination="aZq-8Z-Ctg" id="zjo-et-VKp"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AnimalTableViewCell" rowHeight="350" id="xgB-Cv-dth" customClass="AnimalTableViewCell" customModule="ButtonViewDemo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="748" width="320" height="350"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xgB-Cv-dth" id="q77-Hs-gNL">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="349.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ApE-e1-8IF" customClass="ButtonView" customModule="ButtonViewDemo" customModuleProvider="target">
+                                                    <rect key="frame" x="10" y="10" width="80" height="80"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inu" translatesAutoresizingMaskIntoConstraints="NO" id="zbb-RV-7tS">
+                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="A4X-hw-a9r"/>
+                                                        <constraint firstAttribute="bottom" secondItem="zbb-RV-7tS" secondAttribute="bottom" id="AVX-4l-N3H"/>
+                                                        <constraint firstAttribute="width" constant="80" id="aTv-xB-TAJ"/>
+                                                        <constraint firstAttribute="trailing" secondItem="zbb-RV-7tS" secondAttribute="trailing" id="fPA-9t-5wa"/>
+                                                        <constraint firstItem="zbb-RV-7tS" firstAttribute="top" secondItem="ApE-e1-8IF" secondAttribute="top" id="gKg-pr-4lc"/>
+                                                        <constraint firstItem="zbb-RV-7tS" firstAttribute="leading" secondItem="ApE-e1-8IF" secondAttribute="leading" id="vzJ-BA-qug"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6kW-Tp-Uv7" customClass="ButtonView" customModule="ButtonViewDemo" customModuleProvider="target">
+                                                    <rect key="frame" x="100" y="10" width="80" height="80"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="neko" translatesAutoresizingMaskIntoConstraints="NO" id="1h4-id-cS4">
+                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstItem="1h4-id-cS4" firstAttribute="top" secondItem="6kW-Tp-Uv7" secondAttribute="top" id="HEq-WF-2D1"/>
+                                                        <constraint firstItem="1h4-id-cS4" firstAttribute="leading" secondItem="6kW-Tp-Uv7" secondAttribute="leading" id="KCJ-Td-a5F"/>
+                                                        <constraint firstAttribute="height" constant="80" id="YJD-pO-CT9"/>
+                                                        <constraint firstAttribute="width" constant="80" id="YoB-9z-zpz"/>
+                                                        <constraint firstAttribute="bottom" secondItem="1h4-id-cS4" secondAttribute="bottom" id="iHy-VO-YVZ"/>
+                                                        <constraint firstAttribute="trailing" secondItem="1h4-id-cS4" secondAttribute="trailing" id="xKn-zR-9tY"/>
+                                                    </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xhr-OG-xDH" customClass="ButtonView" customModule="ButtonViewDemo" customModuleProvider="target">
+                                                    <rect key="frame" x="190" y="10" width="80" height="80"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inko" translatesAutoresizingMaskIntoConstraints="NO" id="254-z2-OQP">
+                                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="80" id="5uX-SO-kpb"/>
+                                                        <constraint firstItem="254-z2-OQP" firstAttribute="leading" secondItem="xhr-OG-xDH" secondAttribute="leading" id="DM7-Ef-WIv"/>
+                                                        <constraint firstAttribute="bottom" secondItem="254-z2-OQP" secondAttribute="bottom" id="XjN-fF-pyy"/>
+                                                        <constraint firstAttribute="trailing" secondItem="254-z2-OQP" secondAttribute="trailing" id="ZDS-u0-6xs"/>
+                                                        <constraint firstAttribute="width" constant="80" id="bys-yh-ShE"/>
+                                                        <constraint firstItem="254-z2-OQP" firstAttribute="top" secondItem="xhr-OG-xDH" secondAttribute="top" id="k6d-tw-Qz4"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6kW-Tp-Uv7" firstAttribute="top" secondItem="q77-Hs-gNL" secondAttribute="top" constant="10" id="7uI-EO-5C6"/>
+                                                <constraint firstItem="6kW-Tp-Uv7" firstAttribute="leading" secondItem="ApE-e1-8IF" secondAttribute="trailing" constant="10" id="85I-cn-dPk"/>
+                                                <constraint firstItem="ApE-e1-8IF" firstAttribute="leading" secondItem="q77-Hs-gNL" secondAttribute="leading" constant="10" id="Eyg-DY-80f"/>
+                                                <constraint firstItem="xhr-OG-xDH" firstAttribute="leading" secondItem="6kW-Tp-Uv7" secondAttribute="trailing" constant="10" id="GMY-zZ-b02"/>
+                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ApE-e1-8IF" secondAttribute="bottom" constant="100" id="bxI-lK-geI"/>
+                                                <constraint firstItem="ApE-e1-8IF" firstAttribute="top" secondItem="q77-Hs-gNL" secondAttribute="top" constant="10" id="dUd-wz-m9b"/>
+                                                <constraint firstItem="xhr-OG-xDH" firstAttribute="top" secondItem="q77-Hs-gNL" secondAttribute="top" constant="10" id="qhJ-Sz-tin"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="inkoButtonView" destination="xhr-OG-xDH" id="xeG-ol-758"/>
+                                            <outlet property="inuButtonView" destination="ApE-e1-8IF" id="oa9-ug-Izr"/>
+                                            <outlet property="nekoButtonView" destination="6kW-Tp-Uv7" id="sAT-fq-Rzp"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
@@ -595,5 +670,8 @@
     </scenes>
     <resources>
         <image name="icon_info" width="21" height="21"/>
+        <image name="inko" width="117" height="133"/>
+        <image name="inu" width="118" height="133"/>
+        <image name="neko" width="109" height="133"/>
     </resources>
 </document>

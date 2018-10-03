@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         
         case toggle
         case buttonAndButtonView
+        case animal
         
         func reuseIdentifier() -> String {
             switch self {
@@ -50,6 +51,8 @@ class ViewController: UIViewController {
                 return "ToggleTableViewCell"
             case .buttonAndButtonView:
                 return "ButtonAndButtonViewTableViewCell"
+            case .animal:
+                return "AnimalTableViewCell"
             }
         }
     }
@@ -61,7 +64,8 @@ class ViewController: UIViewController {
                                 .likeButtonCustom,
                                 .whiteTheWhole,
                                 .toggle,
-                                .buttonAndButtonView]
+                                .buttonAndButtonView,
+                                .animal]
     
     //    @IBOutlet weak var buttonView: ButtonView!
     //    @IBOutlet weak var componentLightButtonView: ButtonView!
@@ -130,6 +134,10 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier(), for: indexPath) as! ButtonAndButtonViewTableViewCell
             return cell
         }
+        else if (cellType == .animal) {
+            let cell = tableView.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier(), for: indexPath)
+            return cell
+        }
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier(), for: indexPath) as! SimpleTableViewCell
             
@@ -196,5 +204,24 @@ class ButtonAndButtonViewTableViewCell:UITableViewCell {
     @IBAction func tappedButtonView(_ sender: ButtonView) {
         face2 = !face2
         faceLabel2.text = face2 ? "😃" : "🙂"
+    }
+}
+
+class AnimalTableViewCell:UITableViewCell {
+    @IBOutlet weak var inuButtonView: ButtonView!
+    @IBOutlet weak var nekoButtonView: ButtonView!
+    @IBOutlet weak var inkoButtonView: ButtonView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        [inuButtonView,nekoButtonView,inkoButtonView].forEach { (buttonView) in
+            buttonView?.layer.cornerRadius = 5
+            buttonView?.clipsToBounds = true
+            buttonView?.layer.borderColor = UIColor.lightGray.cgColor
+            buttonView?.layer.borderWidth = 1
+            
+            buttonView?.setup(type: .componentLight)
+        }
     }
 }
