@@ -26,6 +26,11 @@ class ButtonView: UIControl {
     // タッチしたポイント
     var touchDownPoint:CGPoint = .zero
     
+    let whiteCoverAlpha:CGFloat = 0.7
+    let darkCoverAlpha:CGFloat = 0.5
+    
+    // MARK: -
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.commonInit()
@@ -139,7 +144,7 @@ class ButtonView: UIControl {
         UIView.animate(
             withDuration: animation ? 0.2 : 0,
             delay: 0,
-            options: .curveEaseIn,
+            options: .curveEaseOut,
             animations: {
                 
                 if self.viewHilightModes.cover == .light {
@@ -147,11 +152,11 @@ class ButtonView: UIControl {
                     return;
                 }
                 if self.viewHilightModes.cover == .dark {
-                    self.allCoverView?.isHidden = false
+                    self.allCoverView?.alpha = self.darkCoverAlpha
                     return;
                 }
                 if self.viewHilightModes.cover == .white {
-                    self.allCoverView?.isHidden = false
+                    self.allCoverView?.alpha = self.whiteCoverAlpha
                     return;
                 }
                 
@@ -214,11 +219,11 @@ class ButtonView: UIControl {
                 }
                 
                 if self.viewHilightModes.cover == .dark {
-                    self.allCoverView?.isHidden = true
+                    self.allCoverView?.alpha = 0
                     return
                 }
                 if self.viewHilightModes.cover == .white {
-                    self.allCoverView?.isHidden = true
+                    self.allCoverView?.alpha = 0
                     return;
                 }
                 
@@ -630,13 +635,12 @@ extension ButtonView {
         allCoverView.frame = self.bounds
         if (self.type == .whiteTheWhole) {
             allCoverView.backgroundColor = UIColor.white
-            allCoverView.alpha = 0.7
+            allCoverView.alpha = 0
         }
         else {
             allCoverView.backgroundColor = UIColor.black
-            allCoverView.alpha = 0.5
+            allCoverView.alpha = 0
         }
-        allCoverView.isHidden = true
         allCoverView.isUserInteractionEnabled = false
         self.addSubview(allCoverView)
     }
