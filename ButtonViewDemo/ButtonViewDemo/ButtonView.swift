@@ -8,26 +8,69 @@
 
 import UIKit
 
-@objcMembers
+//MARK: - enum
+extension ButtonView {
+    
+    enum ButtonViewType {
+        case componentLight     //Default. It get lighter all subviews（without background）.
+        case componentDark      //It get darker all subviews（without background and label）.
+        
+        case lighterTheWhole    //It get lighter parent view by alpha.
+        case darkerTheWhole     //It get darker parent view by cover view.
+        case whiteTheWhole      //It get whiter by cover view
+        
+        case likeUIButtonPlane  //It get lighter only labels.
+        case likeUIButtonCustom //It get darker only images.
+        case likeUIButton       //if(exist images) -> likeUIButtonCustom else -> likeUIButtonPlane
+        
+        case noChange           //No change in visible.
+        
+        case customMode         //Specify individually
+    }
+    
+    enum HilightMode {
+        case none       // Nothing todo
+        case dark
+        case light
+        case white
+    }
+}
+
 class ButtonView: UIControl {
     
-    var coverImageName:String?
+    fileprivate var coverImageName:String?
+    fileprivate var type:ButtonViewType = .componentLight
+    fileprivate let viewHilightModes = ViewHilightModes()
+
     let defaultAlpha:CGFloat = 1.0
-    var type:ButtonViewType = .componentLight
-    let viewHilightModes = ViewHilightModes()
+    let viewTransparentAlpha:CGFloat = 0.2
     
-    // for cover
-    var coverImageViewViews:[UIView] = []
-    var coverViewViews:[UIView] = []
-    var allCoverView:UIView?
+    // cover
+    fileprivate var coverImageViewViews:[UIView] = []
+    fileprivate var coverViewViews:[UIView] = []
+    fileprivate var allCoverView:UIView?
     
     // タッチ状態
-    var onTouch:Bool = false
+    fileprivate var onTouch:Bool = false
     // タッチしたポイント
-    var touchDownPoint:CGPoint = .zero
+    fileprivate var touchDownPoint:CGPoint = .zero
     
-    let whiteCoverAlpha:CGFloat = 0.7
-    let darkCoverAlpha:CGFloat = 0.5
+    fileprivate let whiteCoverAlpha:CGFloat = 0.7
+    fileprivate let darkCoverAlpha:CGFloat = 0.5
+    
+    // UIControlStatesにあるfucused,application,reservedは実装していません
+    var highlightedView:UIView?
+    var disabledView:UIView?
+    var selectedView:UIView?
+    
+    struct StateStyle {
+        let state:UIControlState
+        let textColor:UIColor
+        let backgroundColor:UIColor
+    }
+    
+    var stateStyles:[StateStyle] = []
+
     
     // MARK: -
     
@@ -39,12 +82,12 @@ class ButtonView: UIControl {
         super.init(coder: aDecoder)
         self.commonInit()
     }
-    func commonInit() {
+    fileprivate func commonInit() {
         addTargets()
         setup(type: .likeUIButtonPlane)
     }
     
-    func addTargets() {
+    fileprivate func addTargets() {
         addTarget(self, action: #selector(touchDown),           for: .touchDown)
         addTarget(self, action: #selector(touchUpInside),       for: .touchUpInside)
         addTarget(self, action: #selector(touchUpOutside),      for: .touchUpOutside)
@@ -71,50 +114,18 @@ class ButtonView: UIControl {
         
         createCoverView()
     }
+}
+
+//MARK: Event handling
+extension ButtonView {
     
-    // bridge
-    //TODO:enum of objective-cに
-    @objc func setup(typeString:String) {
-        var type:ButtonViewType = .componentLight
-        
-        if typeString == "componentLight" {
-            type = .componentLight
-        }
-        else if typeString == "componentDark" {
-            type = .componentDark
-        }
-        else if typeString == "lighterTheWhole" {
-            type = .lighterTheWhole
-        }
-        else if typeString == "darkerTheWhole" {
-            type = .darkerTheWhole
-        }
-        else if typeString == "likeUIButtonPlane" {
-            type = .likeUIButtonPlane
-        }
-        else if typeString == "likeUIButtonCustom" {
-            type = .likeUIButtonCustom
-        }
-        else if typeString == "likeUIButton" {
-            type = .likeUIButton
-        }
-        else if typeString == "noChange" {
-            type = .noChange
-        }
-        setup(type: type)
-    }
-    
-    // event
     @objc func touchDown() {
-        //        print("touch down")
         showTouchState(animation: false)
     }
     @objc func touchUpInside() {
-        //        print("touch up inside")
         showUpState(animation: true)
     }
     @objc func touchUpOutside() {
-        //        print("touch up outside")
         showUpState(animation: true)
     }
     @objc func touchDragInside() {
@@ -132,7 +143,6 @@ class ButtonView: UIControl {
         showUpState(animation: true)
     }
     
-    //
     func showTouchState(animation:Bool) {
         if onTouch {
             return
@@ -163,14 +173,14 @@ class ButtonView: UIControl {
                 if self.viewHilightModes.label == .light {
                     for v in self.subviews {
                         if v is UILabel {
-                            v.alpha = 0.2
+                            v.alpha = self.viewTransparentAlpha
                         }
                     }
                 }
                 if self.viewHilightModes.imageView == .light {
                     for v in self.subviews {
                         if v is UIImageView {
-                            v.alpha = 0.2
+                            v.alpha = self.viewTransparentAlpha
                         }
                     }
                 }
@@ -184,7 +194,7 @@ class ButtonView: UIControl {
                 if self.viewHilightModes.uiView == .light {
                     for v in self.subviews {
                         if self.isView(v: v) {
-                            v.alpha = 0.2
+                            v.alpha = self.viewTransparentAlpha
                         }
                     }
                 }
@@ -230,7 +240,7 @@ class ButtonView: UIControl {
                 if self.viewHilightModes.label == .light {
                     for v in self.subviews {
                         if v is UILabel {
-                            v.alpha = 1.0
+                            v.alpha = self.defaultAlpha
                         }
                     }
                 }
@@ -238,7 +248,7 @@ class ButtonView: UIControl {
                 if self.viewHilightModes.imageView == .light {
                     for v in self.subviews {
                         if v is UIImageView {
-                            v.alpha = 1.0
+                            v.alpha = self.defaultAlpha
                         }
                     }
                 }
@@ -252,8 +262,7 @@ class ButtonView: UIControl {
                 if self.viewHilightModes.uiView == .light {
                     for v in self.subviews {
                         if self.isView(v: v) {
-                            //TODO:default alpha
-                            v.alpha = 1.0
+                            v.alpha = self.defaultAlpha
                         }
                     }
                 }
@@ -269,23 +278,9 @@ class ButtonView: UIControl {
             completion: nil)
     }
     
-    //MARK:UIControlState function
-    
-    var highlightedView:UIView?
-    var disabledView:UIView?
-    var selectedView:UIView?
-    // 未実装:fucused,application,reserved
-    
-    struct StateStyle {
-        let state:UIControlState
-        let textColor:UIColor
-        let backgroundColor:UIColor
-    }
-    
-    var stateStyles:[StateStyle] = []
 }
 
-// ControlState
+//MARK: for ControlState
 extension ButtonView {
     
     func setView(view:UIView?, forState:UIControlState) {
@@ -295,25 +290,26 @@ extension ButtonView {
         
         if forState == UIControlState.highlighted {
             highlightedView = view
-            highlightedView!.tag = 1
+            //TODO:tagが被るリスク
+            highlightedView!.tag = 10000001
             highlightedView!.isUserInteractionEnabled = false
-            removeView(tag: 1)
+            removeView(tag: 10000001)
             self.addSubviewAndFit(subview: highlightedView!, parentView: self)
             
         }
         if forState == UIControlState.disabled {
             disabledView = view
-            disabledView!.tag = 2
+            disabledView!.tag = 10000002
             disabledView!.isUserInteractionEnabled = false
-            removeView(tag: 2)
+            removeView(tag: 10000002)
             self.addSubviewAndFit(subview: disabledView!, parentView: self)
             
         }
         if forState == UIControlState.selected {
             selectedView = view
-            selectedView!.tag = 3
+            selectedView!.tag = 10000003
             selectedView!.isUserInteractionEnabled = false
-            removeView(tag: 3)
+            removeView(tag: 10000003)
             self.addSubviewAndFit(subview: selectedView!, parentView: self)
         }
         
@@ -410,7 +406,7 @@ extension ButtonView {
     
 }
 
-// Util
+//MARK: Util
 extension ButtonView {
     
     func isView(v:Any?) -> Bool {
@@ -442,7 +438,7 @@ extension ButtonView {
     }
 }
 
-// Layout
+//MARK: Util Layout
 extension ButtonView {
     
     func addSubviewAndFit(subview:UIView, parentView:UIView) {
@@ -477,35 +473,6 @@ extension ButtonView {
             parentView.addConstraint(
                 NSLayoutConstraint(item: parentView, attribute: .trailing, relatedBy: .equal, toItem: subView, attribute: .trailing, multiplier: 1.0, constant: 0.0))
         }
-    }
-}
-
-
-//MARK: - enum
-extension ButtonView {
-    
-    enum ButtonViewType {
-        case componentLight     //Default. It get lighter all subviews（without background）. 
-        case componentDark      //It get darker all subviews（without background and label）.
-        
-        case lighterTheWhole    //It get lighter parent view by alpha.
-        case darkerTheWhole     //It get darker parent view by cover view.
-        case whiteTheWhole      //It get whiter by cover view
-        
-        case likeUIButtonPlane  //It get lighter only labels.
-        case likeUIButtonCustom //It get darker only images.
-        case likeUIButton       //if(exist images) -> likeUIButtonCustom else -> likeUIButtonPlane
-        
-        case noChange           //No change in visible.
-        
-        case customMode         //Specify individually
-    }
-    
-    enum HilightMode {
-        case none       // Nothing todo
-        case dark
-        case light
-        case white
     }
 }
 
