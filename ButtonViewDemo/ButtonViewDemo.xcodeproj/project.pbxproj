@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA56470E224482AC00FDB186 /* LikeButtonControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56470D224482AC00FDB186 /* LikeButtonControl.swift */; };
 		DA8465EF2007086C00674917 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8465EE2007086C00674917 /* AppDelegate.swift */; };
 		DA8465F12007086C00674917 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8465F02007086C00674917 /* ViewController.swift */; };
 		DA8465F42007086C00674917 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA8465F22007086C00674917 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA56470D224482AC00FDB186 /* LikeButtonControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButtonControl.swift; sourceTree = "<group>"; };
 		DA8465EB2007086C00674917 /* ButtonViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ButtonViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA8465EE2007086C00674917 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA8465F02007086C00674917 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				DA8465F52007086C00674917 /* Assets.xcassets */,
 				DA8465F72007086C00674917 /* LaunchScreen.storyboard */,
 				DA8465FA2007086C00674917 /* Info.plist */,
+				DA56470D224482AC00FDB186 /* LikeButtonControl.swift */,
 			);
 			path = ButtonViewDemo;
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA56470E224482AC00FDB186 /* LikeButtonControl.swift in Sources */,
 				DA8465F12007086C00674917 /* ViewController.swift in Sources */,
 				DA8465EF2007086C00674917 /* AppDelegate.swift in Sources */,
 				DAF397DC2165FD9000687A67 /* ButtonView.swift in Sources */,
