@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         case likeButtonPlane
         case likeButtonCustom
         case whiteTheWhole
+        case background
         
         case toggle
         case buttonAndButtonView
@@ -47,6 +48,8 @@ class ViewController: UIViewController {
                 return "likeButtonCustom"
             case .whiteTheWhole:
                 return "whiteTheWhole"
+            case .background:
+                return "background"
             case .toggle:
                 return "ToggleTableViewCell"
             case .buttonAndButtonView:
@@ -63,6 +66,7 @@ class ViewController: UIViewController {
                                 .likeButtonPlane,
                                 .likeButtonCustom,
                                 .whiteTheWhole,
+                                .background,
                                 .toggle,
                                 .buttonAndButtonView,
                                 .animal]
@@ -121,7 +125,7 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cellType = cellTypes[indexPath.row]
-        
+
         if (cellType == .toggle) {
             let cell = tableView.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier(), for: indexPath) as! ToggleTableViewCell
             cell.buttonView.setView(view: selectedView, forState: .selected)
@@ -156,6 +160,10 @@ extension ViewController:UITableViewDelegate,UITableViewDataSource {
                 cell.buttonView.setup(type: .likeUIButtonCustom)
             case .whiteTheWhole:
                 cell.buttonView.setup(type: .whiteTheWhole)
+            case .background:
+                cell.buttonView.setup(type: .likeUITableViewCell)
+//                cell.buttonView.setup(type: .noChange)
+//                cell.buttonView.addStateStyle(style: ButtonView.StateStyle(state: .highlighted, textColor: UIColor(white: 217/255.0, alpha: 1), backgroundColor: cell.buttonView.cellSelectedColor, animationDuration: cell.buttonView.durationOff))
             default:
                 break
             }

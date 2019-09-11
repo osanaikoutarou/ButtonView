@@ -22,7 +22,9 @@ extension ButtonView {
         case likeUIButtonPlane  //It get lighter only labels.
         case likeUIButtonCustom //It get darker only images.
         case likeUIButton       //if(exist images) -> likeUIButtonCustom else -> likeUIButtonPlane
-        
+
+        case likeUITableViewCell  //背景のみグレーにする（UITableViewCell同様）
+
         case noChange           //No change in visible.
         
         case customMode         //Specify individually
@@ -44,33 +46,48 @@ class ButtonView: UIControl {
 
     let defaultAlpha:CGFloat = 1.0
     let viewTransparentAlpha:CGFloat = 0.2
-    
-    // cover
+    let cellHighlightedColor:UIColor = UIColor(white: 217/255.0, alpha: 1)
+    let whiteCoverAlpha:CGFloat = 0.7
+    let darkCoverAlpha:CGFloat = 0.5
+    let durationOn:TimeInterval = 0.2
+    let durationOff:TimeInterval = 0.25
+
+    // colored views
     fileprivate var coverImageViewViews:[UIView] = []
     fileprivate var coverViewViews:[UIView] = []
     fileprivate var allCoverView:UIView?
+    fileprivate var backView:UIView?
     
-    // タッチ状態
+    // touch state
     fileprivate var onTouch:Bool = false
-    // タッチしたポイント
+    // touch point
     fileprivate var touchDownPoint:CGPoint = .zero
-    
-    fileprivate let whiteCoverAlpha:CGFloat = 0.7
-    fileprivate let darkCoverAlpha:CGFloat = 0.5
-    
+
     // UIControlStatesにあるfucused,application,reservedは実装していません
     var highlightedView:UIView?
     var disabledView:UIView?
     var selectedView:UIView?
-    
+
+    // 各状態のスタイルを定義する
     struct StateStyle {
         let state:UIControlState
-        let textColor:UIColor
-        let backgroundColor:UIColor
+        let textColor:UIColor?
+        let backgroundColor:UIColor?
+        let animationDuration:TimeInterval?
     }
     
     var stateStyles:[StateStyle] = []
 
+    lazy var setupLikeTableViewCellStyle: Void = {
+        self.addStateStyle(style: ButtonView.StateStyle(state: .normal,
+                                                        textColor: nil ,
+                                                        backgroundColor: self.backgroundColor,
+                                                        animationDuration: self.durationOff))
+        self.addStateStyle(style: ButtonView.StateStyle(state: .highlighted,
+                                                        textColor: nil ,
+                                                        backgroundColor: self.cellHighlightedColor,
+                                                        animationDuration: 0))
+    }()
     
     // MARK: -
     
@@ -114,6 +131,14 @@ class ButtonView: UIControl {
         
         createCoverView()
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if type == .likeUITableViewCell {
+            _ = setupLikeTableViewCellStyle
+        }
+    }
 }
 
 //MARK: Event handling
@@ -152,7 +177,7 @@ extension ButtonView {
         }
         
         UIView.animate(
-            withDuration: animation ? 0.2 : 0,
+            withDuration: animation ? durationOn : 0,
             delay: 0,
             options: .curveEaseOut,
             animations: {
@@ -218,7 +243,7 @@ extension ButtonView {
         }
         
         UIView.animate(
-            withDuration: animation ? 0.25 : 0,
+            withDuration: animation ? durationOff : 0,
             delay: 0,
             options: .curveEaseIn,
             animations: {
@@ -315,6 +340,10 @@ extension ButtonView {
         
         didSetControlStates()
     }
+
+    func addStateStyles(styles: [StateStyle]) {
+        stateStyles += styles
+    }
     
     func addStateStyle(style: StateStyle) {
         stateStyles.append(style)
@@ -355,51 +384,38 @@ extension ButtonView {
         }
     }
     
-    func didSetControlStates() {
+    private func didSetControlStates() {
         allControlStatesSubviewHidden()
         
-        if self.isHighlighted {
+        if isHighlighted {
             if let highlightedView = highlightedView {
                 highlightedView.isHidden = false
             }
         }
-        if !self.isEnabled {
+        if !isEnabled {
             if let disabledView = disabledView {
                 disabledView.isHidden = false
             }
         }
-        if self.isSelected {
+        if isSelected {
             if let selectedView = selectedView {
                 selectedView.isHidden = false
             }
         }
-        
-        if self.state == .normal {
-            let style = stateStyles.filter { $0.state == .normal }
-            if let style = style.first {
-                self.backgroundColor = style.backgroundColor
-                setLabelsTextColor(color: style.textColor)
-            }
-        }
-        if self.state == .highlighted {
-            let style = stateStyles.filter { $0.state == .highlighted }
-            if let style = style.first {
-                self.backgroundColor = style.backgroundColor
-                setLabelsTextColor(color: style.textColor)
-            }
-        }
-        if self.state == .disabled {
-            let style = stateStyles.filter { $0.state == .disabled }
-            if let style = style.first {
-                self.backgroundColor = style.backgroundColor
-                setLabelsTextColor(color: style.textColor)
-            }
-        }
-        if self.state == .selected {
-            let style = stateStyles.filter { $0.state == .selected }
-            if let style = style.first {
-                self.backgroundColor = style.backgroundColor
-                setLabelsTextColor(color: style.textColor)
+
+        if let stateStyle = stateStyles.first(where: { $0.state == state }) {
+            switch state {
+            case .normal, .highlighted, .disabled, .selected:
+                UIView.animate(withDuration: stateStyle.animationDuration ?? 0) {
+                    if let backgroundColor = stateStyle.backgroundColor {
+                        self.backgroundColor = backgroundColor
+                    }
+                    if let textColor = stateStyle.textColor {
+                        self.setLabelsTextColor(color: textColor)
+                    }
+                }
+            default:
+                break
             }
         }
     }
@@ -520,6 +536,8 @@ extension ButtonView {
                 setToNone()
             case .whiteTheWhole:
                 setModes(cover: .white, label: .none, imageView: .none, uiView: .none)
+            case .likeUITableViewCell:
+                setToNone()
             case .customMode:
                 setToNone()
             }
